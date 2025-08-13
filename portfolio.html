@@ -410,17 +410,8 @@
           <div>주택</div>
         </div>
 
-        <div class="thumbnail-grid">
-          <div class="thumb-card" data-category="주택" data-title="파장동 주택공사" data-desc="파장동에 있는 주택.">
-            <img src="img/shop1.jpg" alt="주택">
-            <div class="thumb-title">파장동 주택공사</div>
-            <div class="thumb-overlay">파장동 주택공사</div>
-          </div>
-          <div class="thumb-card" data-category="상가" data-title="논현 주얼리샵" data-desc="서울 논현에 위치한 주얼리샵.">
-            <img src="img/shop2.jpg" alt="상가">
-            <div class="thumb-title">논현 주얼리샵</div>
-            <div class="thumb-overlay">논현 주얼리샵</div>
-          </div>
+        <div class="thumbnail-grid" id="thumbnail-grid">
+          <!-- JavaScript로 동적 생성됩니다 -->
         </div>
 
         <div id="detail-view">
@@ -455,10 +446,11 @@
     </div>
   </footer>
 
+  <script src="data.js"></script>
   <script>
     const tabButtons = document.querySelectorAll('.category-tabs div');
     const menuItems = document.querySelectorAll('.category-menu li');
-    const thumbCards = document.querySelectorAll('.thumb-card');
+    let thumbCards = document.querySelectorAll('.thumb-card');
     const thumbnailGrid = document.querySelector('.thumbnail-grid');
     const detailView = document.getElementById('detail-view');
     const slideTrack = document.getElementById('slide-track');
@@ -467,6 +459,39 @@
     const modalImage = document.getElementById('modal-image');
 
     let imagePaths = [], currentSlide = 0, slideInterval;
+
+    // 썸네일 카드 동적 생성
+    function generateThumbnails() {
+      const grid = document.getElementById('thumbnail-grid');
+      grid.innerHTML = portfolioData.map((item, index) => `
+        <div class="thumb-card" data-category="${item.category}" data-title="${item.title}" data-desc="${item.desc}">
+          <img src="img/${item.image}" alt="${item.category}">
+          <div class="thumb-title">${item.title}</div>
+          <div class="thumb-overlay">${item.title}</div>
+        </div>
+      `).join('');
+      
+      // 썸네일 카드들 다시 선택
+      thumbCards = document.querySelectorAll('.thumb-card');
+      
+      // 이벤트 리스너 다시 연결
+      attachEventListeners();
+    }
+
+    // 이벤트 리스너 연결 함수
+    function attachEventListeners() {
+      thumbCards.forEach((card, index) => {
+        card.onclick = () => {
+          const title = card.dataset.title;
+          document.getElementById('detail-title').textContent = title;
+          document.getElementById('detail-desc').textContent = card.dataset.desc;
+          thumbnailGrid.style.display = 'none';
+          detailView.style.display = 'block';
+          loadSlideshow(title);
+        };
+        card.style.setProperty('--delay', `${index * 0.1}s`);
+      });
+    }
 
     tabButtons.forEach(btn => btn.onclick = () => {
       const cat = btn.textContent.trim();
@@ -493,17 +518,7 @@
       clearInterval(slideInterval);
     }
 
-    thumbCards.forEach((card, index) => {
-      card.onclick = () => {
-        const title = card.dataset.title;
-        document.getElementById('detail-title').textContent = title;
-        document.getElementById('detail-desc').textContent = card.dataset.desc;
-        thumbnailGrid.style.display = 'none';
-        detailView.style.display = 'block';
-        loadSlideshow(title);
-      };
-      card.style.setProperty('--delay', `${index * 0.1}s`);
-    });
+    // 기존 이벤트 리스너 코드는 attachEventListeners 함수로 이동됨
 
     function goBack() {
       detailView.style.display = 'none';
@@ -574,19 +589,25 @@
     });
 
 
-// URL에서 파라미터 가져와서 detail-view 자동 열기
+// 페이지 로드시 실행
 window.addEventListener('DOMContentLoaded', () => {
+  // 썸네일 생성
+  generateThumbnails();
+  
+  // URL에서 파라미터 가져와서 detail-view 자동 열기
   const params = new URLSearchParams(window.location.search);
   const titleParam = params.get('title');
   if (!titleParam) return;
 
-  const matched = [...document.querySelectorAll('.thumb-card')].find(card =>
-    card.dataset.title === titleParam
-  );
-  if (matched) {
-    matched.click(); // 썸네일 클릭 효과 실행
-    matched.scrollIntoView({ behavior: 'smooth' });
-  }
+  setTimeout(() => {
+    const matched = [...document.querySelectorAll('.thumb-card')].find(card =>
+      card.dataset.title === titleParam
+    );
+    if (matched) {
+      matched.click(); // 썸네일 클릭 효과 실행
+      matched.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, 100);
 });
 
 
