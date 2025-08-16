@@ -423,6 +423,22 @@
         width: 100%;
         padding-left: 0;
       }
+
+      .header-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+      }
+
+      nav {
+        width: 100%;
+        text-align: center;
+      }
+
+      nav ul {
+        justify-content: center;
+        gap: 30px;
+      }
     }
 
     @media (max-width: 1024px) {
@@ -437,6 +453,22 @@
       .category-content {
         width: 100%;
         padding-left: 0;
+      }
+
+      .header-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+      }
+
+      nav {
+        width: 100%;
+        text-align: center;
+      }
+
+      nav ul {
+        justify-content: center;
+        gap: 30px;
       }
 
       #main-image-container {
@@ -456,6 +488,28 @@
         padding: 0 20px;
       }
 
+      .header-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+      }
+
+      nav {
+        width: 100%;
+        text-align: center;
+      }
+
+      nav ul {
+        flex-direction: row;
+        justify-content: center;
+        gap: 30px;
+        font-size: 0.9rem;
+      }
+
+      nav ul li a {
+        font-size: 1.2rem;
+      }
+
       #main-image-container {
         width: calc(100vw - 40px) !important;
         max-width: calc(100vw - 40px) !important;
@@ -464,10 +518,6 @@
         max-height: 400px !important;
         min-height: 250px !important;
         margin: 0 0 20px 0 !important;
-      }
-
-      .header-container {
-        gap: 10px;
       }
 
       .main-visual h1 {
@@ -689,18 +739,39 @@
       
       let clickStartTime = 0;
       let clickStartX = 0;
+      let clickStartY = 0;
       
       thumbnailItem.addEventListener('mousedown', (e) => {
         clickStartTime = Date.now();
         clickStartX = e.clientX;
+        clickStartY = e.clientY;
+      });
+      
+      thumbnailItem.addEventListener('touchstart', (e) => {
+        clickStartTime = Date.now();
+        clickStartX = e.touches[0].clientX;
+        clickStartY = e.touches[0].clientY;
       });
       
       thumbnailItem.addEventListener('mouseup', (e) => {
         const timeDiff = Date.now() - clickStartTime;
-        const moveDiff = Math.abs(e.clientX - clickStartX);
+        const moveDiffX = Math.abs(e.clientX - clickStartX);
+        const moveDiffY = Math.abs(e.clientY - clickStartY);
         
-        if (timeDiff < 200 && moveDiff < 5) {
+        if (timeDiff < 300 && moveDiffX < 10 && moveDiffY < 10) {
           showMainImage(index);
+        }
+      });
+      
+      thumbnailItem.addEventListener('touchend', (e) => {
+        const timeDiff = Date.now() - clickStartTime;
+        if (e.changedTouches && e.changedTouches[0]) {
+          const moveDiffX = Math.abs(e.changedTouches[0].clientX - clickStartX);
+          const moveDiffY = Math.abs(e.changedTouches[0].clientY - clickStartY);
+          
+          if (timeDiff < 300 && moveDiffX < 10 && moveDiffY < 10) {
+            showMainImage(index);
+          }
         }
       });
       
