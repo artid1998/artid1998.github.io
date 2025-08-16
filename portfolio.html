@@ -109,9 +109,10 @@
       background-color: var(--main-blue);
       color: white;
       text-align: center;
-      padding: 40px 10px;
-      font-size: 20px;
+      padding: 20px 10px;
+      font-size: 18px;
       font-weight: bold;
+      writing-mode: horizontal-tb;
     }
 
     .category-menu ul {
@@ -121,13 +122,16 @@
     }
 
     .category-menu li {
-      padding: 15px 20px;
+      padding: 12px 15px;
       cursor: pointer;
       border-bottom: 1px solid #e0e0e0;
       margin-bottom: 2px;
       transition: all 0.3s ease;
       position: relative;
-      font-size: 1.2rem;
+      font-size: 1rem;
+      white-space: nowrap;
+      writing-mode: horizontal-tb;
+      text-align: left;
     }
 
     .category-menu li:hover {
@@ -190,7 +194,7 @@
 
     .thumbnail-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      grid-template-columns: repeat(3, 1fr);
       gap: 20px;
     }
     .thumb-card {
@@ -216,15 +220,13 @@
     .thumb-title, .thumb-overlay {
       position: absolute;
       left: 0;
+      right: 0;
       width: 100%;
       padding: 10px;
       text-align: center;
       color: white;
       font-weight: bold;
-    }
-
-    .thumb-overlay {
-      font-size: 2.1em;
+      box-sizing: border-box;
     }
 
     .thumb-title {
@@ -236,6 +238,7 @@
     }
 
     .thumb-overlay {
+      font-size: 18px;
       top: 0;
       height: 100%;
       background-color: var(--main-blue-hover);
@@ -244,7 +247,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 18px;
       transition: 0.3s;
     }
 
@@ -268,8 +270,8 @@
     #main-image-container {
       width: 960px !important;
       max-width: 960px !important;
-      height: 540px !important;
-      min-height: 540px !important;
+      height: 720px !important;
+      min-height: 720px !important;
       margin: 0 0 20px 0 !important;
       display: flex !important;
       justify-content: center !important;
@@ -284,7 +286,7 @@
     #main-image, #main-image-overlay {
       width: 100%;
       height: 100%;
-      object-fit: contain;
+      object-fit: cover;
       cursor: pointer;
       transition: transform 0.3s ease;
     }
@@ -295,7 +297,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      object-fit: contain;
+      object-fit: cover;
       cursor: pointer;
       opacity: 0;
       transition: opacity 0.3s ease, transform 0.3s ease;
@@ -316,9 +318,72 @@
     #thumbnail-container {
       position: relative;
       width: 100%;
+      max-width: 950px;
       overflow: hidden;
       cursor: grab;
       user-select: none;
+    }
+
+    #thumbnail-container::before,
+    #thumbnail-container::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      width: 30px;
+      height: 100%;
+      pointer-events: none;
+      z-index: 10;
+      transition: opacity 0.3s ease;
+    }
+
+    #thumbnail-container::before {
+      left: 0;
+      background: linear-gradient(to right, rgba(255,255,255,0.8), transparent);
+    }
+
+    #thumbnail-container::after {
+      right: 0;
+      background: linear-gradient(to left, rgba(255,255,255,0.8), transparent);
+    }
+
+    #thumbnail-container.at-start::before {
+      opacity: 0;
+    }
+
+    #thumbnail-container.at-end::after {
+      opacity: 0;
+    }
+
+    .custom-scrollbar {
+      width: 100%;
+      height: 4px;
+      background-color: #e0e0e0;
+      border-radius: 2px;
+      margin-top: 15px;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .custom-scrollbar-thumb {
+      height: 12px;
+      width: 12px;
+      background-color: var(--main-blue);
+      border-radius: 50%;
+      position: absolute;
+      top: -4px;
+      cursor: grab;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .custom-scrollbar-thumb:hover {
+      transform: scale(1.2);
+      box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+    }
+
+    .custom-scrollbar-thumb.dragging {
+      cursor: grabbing;
+      transform: scale(1.1);
     }
 
     #thumbnail-container.dragging {
@@ -346,6 +411,7 @@
       transition: all 0.3s ease;
       overflow: hidden;
       pointer-events: none;
+      margin-right: 10px;
     }
 
     .thumbnail-item img {
@@ -475,8 +541,8 @@
         width: calc(100vw - 80px) !important;
         max-width: calc(100vw - 80px) !important;
         min-width: 300px !important;
-        height: calc((100vw - 80px) * 9 / 16) !important;
-        max-height: 540px !important;
+        height: calc((100vw - 80px) * 3 / 4) !important;
+        max-height: 720px !important;
         min-height: 300px !important;
         margin: 0 0 20px 0 !important;
       }
@@ -514,8 +580,8 @@
         width: calc(100vw - 40px) !important;
         max-width: calc(100vw - 40px) !important;
         min-width: 280px !important;
-        height: calc((100vw - 40px) * 9 / 16) !important;
-        max-height: 400px !important;
+        height: calc((100vw - 40px) * 3 / 4) !important;
+        max-height: 533px !important;
         min-height: 250px !important;
         margin: 0 0 20px 0 !important;
       }
@@ -593,6 +659,9 @@
             <div id="thumbnail-track"></div>
             <button class="thumbnail-arrow right" onclick="scrollThumbnails(1)">→</button>
           </div>
+          <div class="custom-scrollbar">
+            <div class="custom-scrollbar-thumb"></div>
+          </div>
           <h2 id="detail-title"></h2>
           <p id="detail-desc"></p>
           <button class="back-btn" onclick="window.location.href='inquiry.html'">공사문의</button>
@@ -633,6 +702,7 @@
 
     let imagePaths = [], currentImageIndex = 0, thumbnailScrollPosition = 0;
     let isDragging = false, startX = 0, startScrollPosition = 0;
+    let isScrollbarDragging = false;
 
     // 썸네일 카드 동적 생성
     function generateThumbnails() {
@@ -707,15 +777,33 @@
       currentImageIndex = 0;
       thumbnailScrollPosition = 0;
       thumbnailTrack.innerHTML = '';
-      const folder = `img/slides/${title}`;
       
-      for (let i = 1; i <= 10; i++) {
-        const src = `${folder}/${i}.jpg`;
+      // 썸네일 트랙 위치 초기화
+      thumbnailTrack.style.transform = 'translateX(0px)';
+      
+      // 그라데이션 상태 초기화
+      const container = document.getElementById('thumbnail-container');
+      if (container) {
+        container.classList.add('at-start');
+        container.classList.remove('at-end');
+      }
+      
+      // 커스텀 스크롤바 초기화
+      const thumb = document.querySelector('.custom-scrollbar-thumb');
+      if (thumb) {
+        thumb.style.left = '0px';
+      }
+      
+      // IMAGE_CONFIG 함수들을 사용하여 경로 생성
+      for (let i = 0; i <= 10; i++) {
+        const mainSrc = IMAGE_CONFIG.getMainImagePath(title, i);
+        const thumbSrc = IMAGE_CONFIG.getThumbnailImagePath(title, i);
+        
         const img = new Image();
-        img.src = src;
+        img.src = mainSrc;
         img.onload = () => {
-          imagePaths.push(src);
-          createThumbnail(src, imagePaths.length - 1);
+          imagePaths.push({ main: mainSrc, thumb: thumbSrc });
+          createThumbnail(thumbSrc, mainSrc, imagePaths.length - 1);
           if (imagePaths.length === 1) {
             showMainImage(0);
           }
@@ -726,13 +814,13 @@
       }
     }
 
-    function createThumbnail(src, index) {
+    function createThumbnail(thumbSrc, mainSrc, index) {
       const thumbnailItem = document.createElement('div');
       thumbnailItem.className = 'thumbnail-item';
       if (index === 0) thumbnailItem.classList.add('active');
       
       const img = document.createElement('img');
-      img.src = src;
+      img.src = thumbSrc;
       img.alt = `썸네일 ${index + 1}`;
       
       thumbnailItem.appendChild(img);
@@ -780,7 +868,7 @@
 
     function showMainImage(index) {
       currentImageIndex = index;
-      const newImageSrc = imagePaths[index];
+      const newImageSrc = imagePaths[index].main;
       
       mainImageOverlay.src = newImageSrc;
       mainImageOverlay.onclick = () => showModal(newImageSrc);
@@ -814,6 +902,9 @@
     function setupThumbnailDrag() {
       const container = document.getElementById('thumbnail-container');
       const track = thumbnailTrack;
+
+      // 초기 그라데이션 상태 설정
+      updateGradients();
 
       container.addEventListener('mousedown', startDrag);
       document.addEventListener('mousemove', drag);
@@ -854,6 +945,7 @@
         
         thumbnailScrollPosition = finalPosition;
         track.style.transform = `translateX(-${thumbnailScrollPosition}px)`;
+        updateGradients();
       }
 
       function endDrag() {
@@ -872,7 +964,127 @@
         }
         
         track.style.transform = `translateX(-${thumbnailScrollPosition}px)`;
+        updateGradients();
       }
+
+      function updateGradients() {
+        const containerWidth = container.offsetWidth;
+        const maxScroll = Math.max(0, track.scrollWidth - containerWidth);
+        
+        // 시작 지점에서는 왼쪽 그라데이션 숨기기
+        if (thumbnailScrollPosition <= 0) {
+          container.classList.add('at-start');
+        } else {
+          container.classList.remove('at-start');
+        }
+        
+        // 끝 지점에서는 오른쪽 그라데이션 숨기기
+        if (thumbnailScrollPosition >= maxScroll) {
+          container.classList.add('at-end');
+        } else {
+          container.classList.remove('at-end');
+        }
+        
+        // 커스텀 스크롤바 업데이트
+        updateCustomScrollbar();
+      }
+      
+      // 커스텀 스크롤바 설정
+      setupCustomScrollbar();
+    }
+
+    function updateCustomScrollbar() {
+      const container = document.getElementById('thumbnail-container');
+      const track = thumbnailTrack;
+      const scrollbar = document.querySelector('.custom-scrollbar');
+      const thumb = document.querySelector('.custom-scrollbar-thumb');
+      
+      if (!track || !scrollbar || !thumb) return;
+      
+      const containerWidth = container.offsetWidth;
+      const maxScroll = Math.max(0, track.scrollWidth - containerWidth);
+      
+      // 스크롤바를 항상 보이게 설정
+      scrollbar.style.display = 'block';
+      
+      if (maxScroll === 0) {
+        // 스크롤이 불필요할 때는 썸을 맨 왼쪽에 고정
+        thumb.style.left = '0px';
+        return;
+      }
+      
+      // 썸 위치 계산 (0%에서 100%)
+      const scrollPercentage = thumbnailScrollPosition / maxScroll;
+      const maxThumbPosition = scrollbar.offsetWidth - thumb.offsetWidth;
+      const thumbPosition = Math.max(0, Math.min(maxThumbPosition, scrollPercentage * maxThumbPosition));
+      
+      thumb.style.left = `${thumbPosition}px`;
+    }
+
+    function setupCustomScrollbar() {
+      const scrollbar = document.querySelector('.custom-scrollbar');
+      const thumb = document.querySelector('.custom-scrollbar-thumb');
+      const container = document.getElementById('thumbnail-container');
+      const track = thumbnailTrack;
+      
+      if (!scrollbar || !thumb) return;
+      
+      // 스크롤바 클릭
+      scrollbar.addEventListener('click', (e) => {
+        if (e.target === thumb || isScrollbarDragging) return;
+        
+        const rect = scrollbar.getBoundingClientRect();
+        const clickX = e.clientX - rect.left;
+        const scrollbarWidth = scrollbar.offsetWidth;
+        const thumbWidth = thumb.offsetWidth;
+        
+        const containerWidth = container.offsetWidth;
+        const maxScroll = Math.max(0, track.scrollWidth - containerWidth);
+        
+        const targetPercentage = (clickX - thumbWidth / 2) / (scrollbarWidth - thumbWidth);
+        const clampedPercentage = Math.max(0, Math.min(1, targetPercentage));
+        
+        thumbnailScrollPosition = clampedPercentage * maxScroll;
+        track.style.transform = `translateX(-${thumbnailScrollPosition}px)`;
+        updateCustomScrollbar();
+      });
+      
+      // 썸 드래그
+      thumb.addEventListener('mousedown', (e) => {
+        isScrollbarDragging = true;
+        thumb.classList.add('dragging');
+        
+        const startThumbX = e.clientX;
+        const startScrollPosition = thumbnailScrollPosition;
+        
+        function onMouseMove(e) {
+          if (!isScrollbarDragging) return;
+          
+          const deltaX = e.clientX - startThumbX;
+          const scrollbarWidth = scrollbar.offsetWidth;
+          const thumbWidth = thumb.offsetWidth;
+          const containerWidth = container.offsetWidth;
+          const maxScroll = Math.max(0, track.scrollWidth - containerWidth);
+          
+          const deltaPercentage = deltaX / (scrollbarWidth - thumbWidth);
+          const newScrollPosition = startScrollPosition + (deltaPercentage * maxScroll);
+          
+          thumbnailScrollPosition = Math.max(0, Math.min(maxScroll, newScrollPosition));
+          track.style.transform = `translateX(-${thumbnailScrollPosition}px)`;
+          updateCustomScrollbar();
+        }
+        
+        function onMouseUp() {
+          isScrollbarDragging = false;
+          thumb.classList.remove('dragging');
+          document.removeEventListener('mousemove', onMouseMove);
+          document.removeEventListener('mouseup', onMouseUp);
+        }
+        
+        document.addEventListener('mousemove', onMouseMove);
+        document.addEventListener('mouseup', onMouseUp);
+        e.preventDefault();
+      });
     }
 
     document.querySelector('.main-visual').addEventListener('click', () => {
