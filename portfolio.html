@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>프로젝트 상세 - 인테리어 포트폴리오</title>
   <style>
     :root {
@@ -37,13 +37,13 @@
     }
 
     .logo img {
-      height: 40px;
+      height: 54px;
     }
 
     nav ul {
       list-style: none;
       display: flex;
-      gap: 20px;
+      gap: 60px;
       margin: 0;
       padding: 0;
       flex-wrap: wrap;
@@ -54,6 +54,7 @@
       text-decoration: none;
       color: #010080;
       font-weight: bold;
+      font-size: 1.4rem;
       transition: transform 0.3s ease;
     }
 
@@ -89,7 +90,7 @@
       display: flex;
       gap: 20px;
       margin-top: 50px;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
     }
 
     .category-menu {
@@ -109,19 +110,32 @@
       list-style: none;
       padding: 0;
       margin: 0;
-      border: 1px solid #ddd;
-      border-top: none;
     }
 
     .category-menu li {
-      padding: 12px 15px;
+      padding: 15px 20px;
       cursor: pointer;
-      border-top: 1px solid #ddd;
+      border-bottom: 1px solid #e0e0e0;
+      margin-bottom: 2px;
+      transition: all 0.3s ease;
+      position: relative;
+      font-size: 1.2rem;
+    }
+
+    .category-menu li:hover {
+      background-color: #f0f0f0;
     }
 
     .category-menu li.active {
-      background-color: var(--main-blue-alpha);
+      color: var(--main-blue);
       font-weight: bold;
+    }
+
+    .category-menu li.active::after {
+      content: '▶';
+      position: absolute;
+      right: 20px;
+      color: var(--main-blue);
     }
 
     .category-content {
@@ -136,14 +150,23 @@
     }
 
     .category-tabs div {
-      padding: 10px 15px;
+      padding: 15px 25px;
       border: 1px solid #ccc;
       cursor: pointer;
+      font-size: 1.2rem;
+      min-width: 100px;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .category-tabs div:hover {
+      background-color: #f0f0f0;
     }
 
     .category-tabs .active {
-      background-color: var(--main-blue-alpha);
+      color: var(--main-blue);
       font-weight: bold;
+      border-color: var(--main-blue);
     }
 
     @keyframes fadeSlideUp {
@@ -166,10 +189,8 @@
       position: relative;
       overflow: hidden;
       cursor: pointer;
-      opacity: 0;
-      transform: translateY(30px);
-      animation: fadeSlideUp 0.6s ease forwards;
-      animation-delay: var(--delay, 0s);
+      opacity: 1 !important;
+      transform: translateY(0) !important;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
@@ -192,6 +213,10 @@
       text-align: center;
       color: white;
       font-weight: bold;
+    }
+
+    .thumb-overlay {
+      font-size: 2.1em;
     }
 
     .thumb-title {
@@ -223,64 +248,118 @@
     .back-btn {
       margin-top: 20px;
       display: inline-block;
-      padding: 10px 20px;
+      padding: 14px 28px;
       background-color: var(--main-blue);
       color: white;
       border: none;
       font-weight: bold;
+      font-size: 1.4rem;
       cursor: pointer;
     }
 
-    #slide-wrapper {
-      overflow: hidden;
+    #main-image-container {
+      width: 960px !important;
+      max-width: 960px !important;
+      height: 540px !important;
+      min-height: 540px !important;
+      margin: 0 0 20px 0 !important;
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
+      background-color: #f5f5f5 !important;
+      position: relative !important;
+      overflow: hidden !important;
+      border: 1px solid #ddd !important;
+      box-sizing: border-box !important;
+    }
+
+    #main-image, #main-image-overlay {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    #main-image-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    #main-image-overlay.fade-in {
+      opacity: 1;
+    }
+
+    #main-image:hover, #main-image-overlay:hover {
+      transform: scale(1.01);
+    }
+
+    #main-image:hover {
+      transform: scale(1.01);
+    }
+
+    #thumbnail-container {
       position: relative;
       width: 100%;
-      max-height: 500px;
+      overflow: hidden;
+      cursor: grab;
+      user-select: none;
     }
 
-    #slide-track {
+    #thumbnail-container.dragging {
+      cursor: grabbing;
+    }
+
+    #thumbnail-track {
       display: flex;
-      transition: transform 0.5s ease;
+      gap: 10px;
+      transition: transform 0.3s ease;
+      padding: 10px 0;
+      will-change: transform;
     }
 
-    #slide-track img {
-      width: 100%;
+    #thumbnail-track.no-transition {
+      transition: none;
+    }
+
+    .thumbnail-item {
       flex-shrink: 0;
+      width: 180px;
+      height: 120px;
+      cursor: pointer;
+      border: 3px solid transparent;
+      transition: all 0.3s ease;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .thumbnail-item img {
+      width: 100%;
+      height: 100%;
       object-fit: cover;
-      cursor: pointer;
+      pointer-events: auto;
     }
 
-    .arrow-btn {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background: rgba(0, 0, 0, 0.5);
-      color: white;
-      border: none;
-      font-size: 24px;
-      padding: 10px;
-      z-index: 10;
-      cursor: pointer;
+    .thumbnail-item.active {
+      border-color: var(--main-blue);
     }
 
-    .arrow-left { left: 10px; }
-    .arrow-right { right: 10px; }
-
-    #slide-dots {
-      display: flex;
-      justify-content: center;
-      margin-top: 10px;
-      gap: 6px;
+    .thumbnail-item:hover {
+      transform: scale(1.05);
+      border-color: var(--main-blue-hover);
+      z-index: 5;
+      position: relative;
     }
 
-    #slide-dots span {
-      cursor: pointer;
-      font-size: 18px;
-      opacity: 0.4;
-    }
-
-    #slide-dots .active {
-      opacity: 1;
+    .thumbnail-arrow {
+      display: none;
     }
 
     #image-modal {
@@ -323,13 +402,22 @@
       object-fit: contain;
     }
 
-    /* 반응형 스타일 */
-    @media (max-width: 768px) {
-      .main-container,
-      .container {
-        padding: 0 40px;
+    @media (max-width: 1220px) {
+      .category-section {
+        flex-direction: column;
       }
 
+      .category-menu {
+        display: none;
+      }
+
+      .category-content {
+        width: 100%;
+        padding-left: 0;
+      }
+    }
+
+    @media (max-width: 1024px) {
       .category-section {
         flex-direction: column;
       }
@@ -343,14 +431,36 @@
         padding-left: 0;
       }
 
-      .header-container {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        flex-wrap: wrap;
-        gap: 10px; /* 로고와 nav 사이 여백 */
+      #main-image-container {
+        width: calc(100vw - 80px) !important;
+        max-width: calc(100vw - 80px) !important;
+        min-width: 300px !important;
+        height: calc((100vw - 80px) * 9 / 16) !important;
+        max-height: 540px !important;
+        min-height: 300px !important;
+        margin: 0 0 20px 0 !important;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .main-container,
+      .container {
+        padding: 0 20px;
       }
 
+      #main-image-container {
+        width: calc(100vw - 40px) !important;
+        max-width: calc(100vw - 40px) !important;
+        min-width: 280px !important;
+        height: calc((100vw - 40px) * 9 / 16) !important;
+        max-height: 400px !important;
+        min-height: 250px !important;
+        margin: 0 0 20px 0 !important;
+      }
+
+      .header-container {
+        gap: 10px;
+      }
 
       .main-visual h1 {
         font-size: 1.5rem;
@@ -364,10 +474,10 @@
         width: 100%;
         text-align: center;
       }
-
-      
     }
   </style>
+</head>
+<body>
 <header>
   <div class="main-container header-container">
     <div class="logo">
@@ -379,6 +489,7 @@
       <ul>
         <li><a href="contact.html">회사소개</a></li>
         <li><a href="portfolio.html">공사이력</a></li>
+        <li><a href="inquiry.html">공사문의</a></li>
       </ul>
     </nav>
   </div>
@@ -394,7 +505,7 @@
   <div class="container">
     <div class="category-section">
       <div class="category-menu">
-        <div class="menu-title">프로젝트</div>
+        <div class="menu-title">공사이력</div>
         <ul>
           <li class="active">모두보기</li>
           <li>상가</li>
@@ -415,15 +526,18 @@
         </div>
 
         <div id="detail-view">
-          <div id="slide-wrapper">
-            <div id="slide-track"></div>
-            <button class="arrow-btn arrow-left" onclick="prevSlide()">←</button>
-            <button class="arrow-btn arrow-right" onclick="nextSlide()">→</button>
+          <div id="main-image-container">
+            <img id="main-image" src="" alt="메인 이미지">
+            <img id="main-image-overlay" src="" alt="오버레이 이미지">
           </div>
-          <div id="slide-dots"></div>
+          <div id="thumbnail-container">
+            <button class="thumbnail-arrow left" onclick="scrollThumbnails(-1)">←</button>
+            <div id="thumbnail-track"></div>
+            <button class="thumbnail-arrow right" onclick="scrollThumbnails(1)">→</button>
+          </div>
           <h2 id="detail-title"></h2>
           <p id="detail-desc"></p>
-          <button class="back-btn" onclick="goBack()">← 돌아가기</button>
+          <button class="back-btn" onclick="window.location.href='inquiry.html'">공사문의</button>
         </div>
       </div>
     </div>
@@ -453,12 +567,14 @@
     let thumbCards = document.querySelectorAll('.thumb-card');
     const thumbnailGrid = document.querySelector('.thumbnail-grid');
     const detailView = document.getElementById('detail-view');
-    const slideTrack = document.getElementById('slide-track');
-    const slideDots = document.getElementById('slide-dots');
+    const mainImage = document.getElementById('main-image');
+    const mainImageOverlay = document.getElementById('main-image-overlay');
+    const thumbnailTrack = document.getElementById('thumbnail-track');
     const imageModal = document.getElementById('image-modal');
     const modalImage = document.getElementById('modal-image');
 
-    let imagePaths = [], currentSlide = 0, slideInterval;
+    let imagePaths = [], currentImageIndex = 0, thumbnailScrollPosition = 0;
+    let isDragging = false, startX = 0, startScrollPosition = 0;
 
     // 썸네일 카드 동적 생성
     function generateThumbnails() {
@@ -467,7 +583,7 @@
         <div class="thumb-card" data-category="${item.category}" data-title="${item.title}" data-desc="${item.desc}">
           <img src="img/${item.image}" alt="${item.category}">
           <div class="thumb-title">${item.title}</div>
-          <div class="thumb-overlay">${item.title}</div>
+          <div class="thumb-overlay">공사문의</div>
         </div>
       `).join('');
       
@@ -487,7 +603,10 @@
           document.getElementById('detail-desc').textContent = card.dataset.desc;
           thumbnailGrid.style.display = 'none';
           detailView.style.display = 'block';
-          loadSlideshow(title);
+          loadImages(title);
+          
+          // 히스토리에 상태 추가
+          history.pushState({ view: 'detail', title: title }, '', `#detail-${encodeURIComponent(title)}`);
         };
         card.style.setProperty('--delay', `${index * 0.1}s`);
       });
@@ -515,64 +634,166 @@
       });
       thumbnailGrid.style.display = 'grid';
       detailView.style.display = 'none';
-      clearInterval(slideInterval);
     }
-
-    // 기존 이벤트 리스너 코드는 attachEventListeners 함수로 이동됨
 
     function goBack() {
       detailView.style.display = 'none';
       thumbnailGrid.style.display = 'grid';
-      clearInterval(slideInterval);
+      
+      // 히스토리 상태 변경
+      history.pushState({ view: 'grid' }, '', '#grid');
     }
 
-    function loadSlideshow(title) {
+    function loadImages(title) {
       imagePaths = [];
-      currentSlide = 0;
-      slideTrack.innerHTML = '';
-      slideDots.innerHTML = '';
+      currentImageIndex = 0;
+      thumbnailScrollPosition = 0;
+      thumbnailTrack.innerHTML = '';
       const folder = `img/slides/${title}`;
+      
       for (let i = 1; i <= 10; i++) {
         const src = `${folder}/${i}.jpg`;
         const img = new Image();
         img.src = src;
         img.onload = () => {
           imagePaths.push(src);
-          const slide = document.createElement('img');
-          slide.src = src;
-          slide.onclick = () => showModal(src);
-          slideTrack.appendChild(slide);
-          const dot = document.createElement('span');
-          dot.textContent = '●';
-          dot.onclick = () => showSlide(imagePaths.indexOf(src));
-          slideDots.appendChild(dot);
-          updateDots();
+          createThumbnail(src, imagePaths.length - 1);
+          if (imagePaths.length === 1) {
+            showMainImage(0);
+          }
+          if (imagePaths.length === 1) {
+            setupThumbnailDrag();
+          }
         };
       }
-      clearInterval(slideInterval);
-      slideInterval = setInterval(nextSlide, 4000);
     }
 
-    function showSlide(index) {
-      currentSlide = index;
-      slideTrack.style.transform = `translateX(-${index * 100}%)`;
-      updateDots();
-    }
-
-    function nextSlide() {
-      currentSlide = (currentSlide + 1) % imagePaths.length;
-      showSlide(currentSlide);
-    }
-
-    function prevSlide() {
-      currentSlide = (currentSlide - 1 + imagePaths.length) % imagePaths.length;
-      showSlide(currentSlide);
-    }
-
-    function updateDots() {
-      [...slideDots.children].forEach((dot, i) => {
-        dot.classList.toggle('active', i === currentSlide);
+    function createThumbnail(src, index) {
+      const thumbnailItem = document.createElement('div');
+      thumbnailItem.className = 'thumbnail-item';
+      if (index === 0) thumbnailItem.classList.add('active');
+      
+      const img = document.createElement('img');
+      img.src = src;
+      img.alt = `썸네일 ${index + 1}`;
+      
+      thumbnailItem.appendChild(img);
+      
+      let clickStartTime = 0;
+      let clickStartX = 0;
+      
+      thumbnailItem.addEventListener('mousedown', (e) => {
+        clickStartTime = Date.now();
+        clickStartX = e.clientX;
       });
+      
+      thumbnailItem.addEventListener('mouseup', (e) => {
+        const timeDiff = Date.now() - clickStartTime;
+        const moveDiff = Math.abs(e.clientX - clickStartX);
+        
+        if (timeDiff < 200 && moveDiff < 5) {
+          showMainImage(index);
+        }
+      });
+      
+      thumbnailTrack.appendChild(thumbnailItem);
+    }
+
+    function showMainImage(index) {
+      currentImageIndex = index;
+      const newImageSrc = imagePaths[index];
+      
+      mainImageOverlay.src = newImageSrc;
+      mainImageOverlay.onclick = () => showModal(newImageSrc);
+      
+      mainImageOverlay.classList.add('fade-in');
+      
+      setTimeout(() => {
+        mainImage.src = newImageSrc;
+        mainImage.onclick = () => showModal(newImageSrc);
+        mainImageOverlay.classList.remove('fade-in');
+      }, 300);
+      
+      document.querySelectorAll('.thumbnail-item').forEach((item, i) => {
+        item.classList.toggle('active', i === index);
+      });
+    }
+
+    function scrollThumbnails(direction) {
+      const container = document.getElementById('thumbnail-container');
+      const track = thumbnailTrack;
+      const thumbnailWidth = 190;
+      const containerWidth = container.offsetWidth - 80;
+      const maxScroll = Math.max(0, track.scrollWidth - containerWidth);
+      
+      thumbnailScrollPosition += direction * thumbnailWidth * 3;
+      thumbnailScrollPosition = Math.max(0, Math.min(thumbnailScrollPosition, maxScroll));
+      
+      track.style.transform = `translateX(-${thumbnailScrollPosition}px)`;
+    }
+
+    function setupThumbnailDrag() {
+      const container = document.getElementById('thumbnail-container');
+      const track = thumbnailTrack;
+
+      container.addEventListener('mousedown', startDrag);
+      document.addEventListener('mousemove', drag);
+      document.addEventListener('mouseup', endDrag);
+
+      container.addEventListener('touchstart', startDrag, { passive: false });
+      document.addEventListener('touchmove', drag, { passive: false });
+      document.addEventListener('touchend', endDrag);
+
+      function startDrag(e) {
+        isDragging = true;
+        startX = e.type === 'mousedown' ? e.clientX : e.touches[0].clientX;
+        startScrollPosition = thumbnailScrollPosition;
+        container.classList.add('dragging');
+        track.classList.add('no-transition');
+        e.preventDefault();
+      }
+
+      function drag(e) {
+        if (!isDragging) return;
+        e.preventDefault();
+        
+        const currentX = e.type === 'mousemove' ? e.clientX : e.touches[0].clientX;
+        const deltaX = startX - currentX;
+        const newScrollPosition = startScrollPosition + deltaX;
+        
+        const containerWidth = container.offsetWidth;
+        const maxScroll = Math.max(0, track.scrollWidth - containerWidth);
+        
+        const elasticLimit = 50;
+        let finalPosition = newScrollPosition;
+        
+        if (newScrollPosition < 0) {
+          finalPosition = newScrollPosition * 0.3;
+        } else if (newScrollPosition > maxScroll) {
+          finalPosition = maxScroll + (newScrollPosition - maxScroll) * 0.3;
+        }
+        
+        thumbnailScrollPosition = finalPosition;
+        track.style.transform = `translateX(-${thumbnailScrollPosition}px)`;
+      }
+
+      function endDrag() {
+        if (!isDragging) return;
+        isDragging = false;
+        container.classList.remove('dragging');
+        track.classList.remove('no-transition');
+        
+        const containerWidth = container.offsetWidth;
+        const maxScroll = Math.max(0, track.scrollWidth - containerWidth);
+        
+        if (thumbnailScrollPosition < 0) {
+          thumbnailScrollPosition = 0;
+        } else if (thumbnailScrollPosition > maxScroll) {
+          thumbnailScrollPosition = maxScroll;
+        }
+        
+        track.style.transform = `translateX(-${thumbnailScrollPosition}px)`;
+      }
     }
 
     document.querySelector('.main-visual').addEventListener('click', () => {
@@ -588,30 +809,51 @@
       if (e.target === imageModal) imageModal.style.display = 'none';
     });
 
+    window.addEventListener('DOMContentLoaded', () => {
+      generateThumbnails();
+      
+      // 초기 히스토리 상태 설정
+      history.replaceState({ view: 'grid' }, '', '#grid');
+      
+      const params = new URLSearchParams(window.location.search);
+      const titleParam = params.get('title');
+      if (!titleParam) return;
 
-// 페이지 로드시 실행
-window.addEventListener('DOMContentLoaded', () => {
-  // 썸네일 생성
-  generateThumbnails();
-  
-  // URL에서 파라미터 가져와서 detail-view 자동 열기
-  const params = new URLSearchParams(window.location.search);
-  const titleParam = params.get('title');
-  if (!titleParam) return;
-
-  setTimeout(() => {
-    const matched = [...document.querySelectorAll('.thumb-card')].find(card =>
-      card.dataset.title === titleParam
-    );
-    if (matched) {
-      matched.click(); // 썸네일 클릭 효과 실행
-      matched.scrollIntoView({ behavior: 'smooth' });
-    }
-  }, 100);
-});
-
-
-
+      setTimeout(() => {
+        const matched = [...document.querySelectorAll('.thumb-card')].find(card =>
+          card.dataset.title === titleParam
+        );
+        if (matched) {
+          matched.click();
+          matched.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+    });
+    
+    // 브라우저 뒤로가기/앞으로가기 버튼 처리
+    window.addEventListener('popstate', (event) => {
+      if (event.state) {
+        if (event.state.view === 'grid') {
+          detailView.style.display = 'none';
+          thumbnailGrid.style.display = 'grid';
+        } else if (event.state.view === 'detail' && event.state.title) {
+          const matched = [...document.querySelectorAll('.thumb-card')].find(card =>
+            card.dataset.title === event.state.title
+          );
+          if (matched) {
+            document.getElementById('detail-title').textContent = event.state.title;
+            document.getElementById('detail-desc').textContent = matched.dataset.desc;
+            thumbnailGrid.style.display = 'none';
+            detailView.style.display = 'block';
+            loadImages(event.state.title);
+          }
+        }
+      } else {
+        // 상태가 없으면 그리드 뷰로
+        detailView.style.display = 'none';
+        thumbnailGrid.style.display = 'grid';
+      }
+    });
   </script>
 </body>
 </html>

@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>공사문의 - 아트아이디</title>
+  
+  <!-- EmailJS CDN -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  
+  <style>
+    :root {
+      --main-blue: #010080;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #fff;
+      color: #333;
+      overflow-x: hidden;
+    }
+
+    header {
+      background-color: #ffffff;
+      padding: 20px 0;
+    }
+
+    .main-container {
+      max-width: 1200px;
+      margin: 10px auto;
+    }
+
+    .header-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo img {
+      height: 54px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 60px;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav ul li a {
+      display: inline-block;
+      text-decoration: none;
+      color: var(--main-blue);
+      font-weight: bold;
+      font-size: 1.4rem;
+      transition: transform 0.3s ease;
+    }
+
+    nav ul li a:hover {
+      transform: scale(1.2);
+    }
+
+    .main-visual {
+      width: 100%;
+      height: 200px;
+      background: url('img/visual.jpg') center/cover no-repeat;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: white;
+    }
+
+    .main-visual .text {
+      background: rgba(0, 0, 0, 0.4);
+      padding: 20px;
+    }
+
+    .inquiry-section {
+      max-width: 1200px;
+      margin: 50px auto;
+      padding: 0 40px;
+    }
+
+    .inquiry-title {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    .inquiry-title h2 {
+      color: var(--main-blue);
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
+
+    .inquiry-title p {
+      color: #666666;
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+
+    .inquiry-form {
+      max-width: 800px;
+      margin: 0 auto;
+      background: #f8f9fa;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .form-group {
+      margin-bottom: 25px;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 20px;
+    }
+
+    .form-row .form-group {
+      flex: 1;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #333333;
+      font-weight: bold;
+      font-size: 1rem;
+    }
+
+    .required {
+      color: #e74c3c;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 12px 15px;
+      border: 2px solid #e0e0e0;
+      border-radius: 5px;
+      font-size: 1rem;
+      font-family: Arial, sans-serif;
+      transition: border-color 0.3s ease;
+      box-sizing: border-box;
+    }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="tel"]:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;
+      border-color: var(--main-blue);
+    }
+
+    select {
+      cursor: pointer;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    .submit-btn {
+      width: 100%;
+      background-color: var(--main-blue);
+      color: white;
+      padding: 15px 30px;
+      border: none;
+      border-radius: 5px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-top: 20px;
+    }
+
+    .submit-btn:hover {
+      background-color: #000060;
+    }
+
+    .submit-btn:disabled {
+      background-color: #cccccc;
+      cursor: not-allowed;
+    }
+
+    .loading {
+      display: none;
+      text-align: center;
+      margin-top: 20px;
+      color: var(--main-blue);
+      font-weight: bold;
+    }
+
+    .success-message {
+      display: none;
+      background-color: #d4edda;
+      color: #155724;
+      padding: 15px;
+      border-radius: 5px;
+      margin-top: 20px;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .error-message {
+      display: none;
+      background-color: #f8d7da;
+      color: #721c24;
+      padding: 15px;
+      border-radius: 5px;
+      margin-top: 20px;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    footer {
+      background-color: #ffffff;
+      color: #666666;
+      padding: 20px 40px;
+    }
+
+    .footer-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .footer-left p {
+      margin: 5px 0;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .footer-right img {
+      height: 70px;
+      object-fit: contain;
+    }
+
+    @media (max-width: 768px) {
+      .form-row {
+        flex-direction: column;
+        gap: 0;
+      }
+      
+      .main-container,
+      .inquiry-section {
+        padding: 0 20px;
+      }
+      
+      .inquiry-form {
+        padding: 30px 20px;
+      }
+      
+      .inquiry-title h2 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="main-container header-container">
+      <div class="logo">
+        <a href="index.html">
+          <img src="img/logo.jpg" alt="로고">
+        </a>
+      </div>
+      
+      <nav>
+        <ul>
+          <li><a href="contact.html">회사소개</a></li>
+          <li><a href="portfolio.html">공사이력</a></li>
+          <li><a href="inquiry.html">공사문의</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <section class="main-visual">
+    <div class="text">
+      <h1>Construction Inquiry</h1>
+      <p>전문적인 인테리어 공사 문의를 남겨주세요</p>
+    </div>
+  </section>
+
+  <section class="inquiry-section">
+    <div class="inquiry-title">
+      <h2>공사문의</h2>
+      <p>인테리어 공사에 대한 문의사항을 남겨주시면<br>빠른 시일 내에 연락드리겠습니다.</p>
+    </div>
+
+    <form id="inquiryForm" class="inquiry-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="name">이름 <span class="required">*</span></label>
+          <input type="text" id="name" name="name" required>
+        </div>
+        <div class="form-group">
+          <label for="phone">연락처 <span class="required">*</span></label>
+          <input type="tel" id="phone" name="phone" required placeholder="010-1234-5678">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">이메일 <span class="required">*</span></label>
+        <input type="email" id="email" name="email" required placeholder="example@email.com">
+      </div>
+
+      <div class="form-group">
+        <label for="constructionType">공사종류 <span class="required">*</span></label>
+        <select id="constructionType" name="construction_type" required>
+          <option value="">선택해주세요</option>
+          <option value="주택인테리어">주택 인테리어</option>
+          <option value="상업공간인테리어">상업공간 인테리어</option>
+          <option value="사무실인테리어">사무실 인테리어</option>
+          <option value="카페인테리어">카페 인테리어</option>
+          <option value="음식점인테리어">음식점 인테리어</option>
+          <option value="기타">기타</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="constructionContent">공사내용</label>
+        <input type="text" id="constructionContent" name="construction_content" placeholder="예: 거실 리모델링, 전체 인테리어 등">
+      </div>
+
+      <div class="form-group">
+        <label for="message">상세 문의내용</label>
+        <textarea id="message" name="message" placeholder="공사 관련 상세한 문의사항을 작성해주세요."></textarea>
+      </div>
+
+      <button type="submit" class="submit-btn" id="submitBtn">문의하기</button>
+      
+      <div class="loading" id="loading">메일을 발송 중입니다...</div>
+      <div class="success-message" id="successMessage">문의가 성공적으로 전송되었습니다!</div>
+      <div class="error-message" id="errorMessage">문의 전송에 실패했습니다. 다시 시도해주세요.</div>
+    </form>
+  </section>
+
+  <footer>
+    <div class="footer-container">
+      <div class="footer-left">
+        <p>경기 수원시 장안구 송정로138번길 13 백산빌딩 6층 601호</p>
+        <p><strong>TEL :</strong> 031-242-0455</p>
+        <p>COPYRIGHT &copy; 2025 아트아이디. ALL RIGHTS RESERVED.</p>
+      </div>
+      <div class="footer-right">
+        <img src="img/logo sub.jpg" alt="서브 로고">
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // EmailJS 초기화
+    emailjs.init('lsOBZgbajOCPGNO9m');
+
+    // 폼 제출 처리
+    document.getElementById('inquiryForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const submitBtn = document.getElementById('submitBtn');
+      const loading = document.getElementById('loading');
+      const successMessage = document.getElementById('successMessage');
+      const errorMessage = document.getElementById('errorMessage');
+      
+      // 메시지 숨기기
+      successMessage.style.display = 'none';
+      errorMessage.style.display = 'none';
+      
+      // 로딩 표시
+      submitBtn.disabled = true;
+      loading.style.display = 'block';
+      
+      // EmailJS로 메일 전송
+      emailjs.sendForm('service_cad9gnb', 'template_r2esgl6', this)
+        .then(function(response) {
+          console.log('SUCCESS!', response.status, response.text);
+          loading.style.display = 'none';
+          successMessage.style.display = 'block';
+          document.getElementById('inquiryForm').reset();
+          submitBtn.disabled = false;
+        }, function(error) {
+          console.log('FAILED...', error);
+          loading.style.display = 'none';
+          errorMessage.style.display = 'block';
+          submitBtn.disabled = false;
+        });
+    });
+
+    // 전화번호 포맷팅
+    document.getElementById('phone').addEventListener('input', function(e) {
+      let value = e.target.value.replace(/[^0-9]/g, '');
+      if (value.length >= 3 && value.length <= 7) {
+        value = value.replace(/(\d{3})(\d{0,4})/, '$1-$2');
+      } else if (value.length > 7) {
+        value = value.replace(/(\d{3})(\d{4})(\d{0,4})/, '$1-$2-$3');
+      }
+      e.target.value = value;
+    });
+  </script>
+</body>
+</html>
