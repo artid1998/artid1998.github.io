@@ -120,96 +120,161 @@
     }
 
     .dots .active {
-      background: #010080;
-    }
-
-    .portfolio {
-      background-color: #ffffff;
-      padding: 50px 0;
-    }
-
-    .portfolio-grid-wrapper {
-      width: 100%;
-      overflow-x: auto;
-    }
-
-    .portfolio-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-      padding: 0 40px;
-      box-sizing: border-box;
-    }
-
-    .portfolio-grid img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-
-    .view-portfolio-wrapper {
-      text-align: center;
-      margin-top: 30px;
-    }
-
-    .view-portfolio-btn {
-      position: relative;
-      display: inline-block;
-      padding: 14px 28px;
-      background: transparent;
-      color: #010080;
-      font-weight: bold;
-      font-size: 1.4rem;
-      text-decoration: none;
-      overflow: hidden;
-      border: none;
-      border-radius: 0;
-      transition: color 0.4s ease;
-      z-index: 1;
-    }
-
-    .view-portfolio-btn::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 5px;
-      height: 100%;
-      background-color: #010080;
-      z-index: -1;
-      transition: width 0.6s ease;
-    }
-
-    .view-portfolio-btn:hover::before {
-      width: 100%;
-    }
-
-    .view-portfolio-btn:hover {
-      color: #ffffff;
+      background: #3949AB;
     }
 
     footer {
-      background-color: #ffffff;
-      color: #666666;
-      padding: 20px 40px;
+      background-color: #1a237e;
+      margin-top: 50px;
+      padding: 60px 0 30px 0;
+      width: 100vw;
+      margin-left: calc(50% - 50vw);
+      color: white;
     }
 
     .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 40px;
+    }
+
+    .footer-top {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      flex-wrap: wrap;
+      margin-bottom: 40px;
     }
 
-    .footer-left p {
-      margin: 5px 0;
-      font-size: 0.9rem;
-      line-height: 1.5;
+    .footer-help {
+      text-align: center;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 15px;
     }
 
-    .footer-right img {
-      height: 70px;
+    .footer-help h3 {
+      margin: 0 0 10px 0;
+      font-size: 1.1rem;
+      font-weight: normal;
+      color: #cccccc;
+    }
+
+    .footer-help .phone {
+      font-size: 1.3rem;
+      font-weight: normal;
+      color: white;
+    }
+
+    .footer-center {
+      text-align: center;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .footer-logo {
+      margin-bottom: 15px;
+    }
+
+    .footer-logo img {
+      height: 60px;
       object-fit: contain;
+      filter: brightness(0) invert(1);
+    }
+
+    .footer-slogan {
+      color: #cccccc;
+      font-size: 0.9rem;
+      margin: 0;
+    }
+
+    .footer-social {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+      gap: 15px;
+    }
+
+    .footer-social h3 {
+      margin: 0 0 15px 0;
+      font-size: 1.1rem;
+      font-weight: normal;
+      color: #cccccc;
+    }
+
+    .footer-social-icons {
+      display: flex;
+      gap: 15px;
+    }
+
+    .footer-social a {
+      display: inline-block;
+      color: white;
+      font-size: 1.5rem;
+      text-decoration: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .footer-social a img {
+      width: 24px;
+      height: 24px;
+      filter: brightness(0) invert(1);
+    }
+
+    .footer-social a:hover {
+      opacity: 0.7;
+    }
+
+    .footer-nav {
+      text-align: center;
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .footer-nav ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      gap: 50px;
+      margin: 0;
+      padding: 0;
+    }
+
+    .footer-nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: opacity 0.3s ease;
+    }
+
+    .footer-nav ul li a:hover {
+      opacity: 0.7;
+    }
+
+    .footer-info {
+      text-align: center;
+      color: #cccccc;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    .footer-info p {
+      margin: 8px 0;
+    }
+
+    .footer-copyright {
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      color: #cccccc;
+      font-size: 0.8rem;
+      text-align: center;
     }
 
     @media (max-width: 768px) {
@@ -235,6 +300,30 @@
 
       nav ul li a {
         font-size: 1.2rem;
+      }
+
+      .footer-top {
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+        text-align: center;
+      }
+
+      .footer-help {
+        text-align: center;
+      }
+
+      .footer-center {
+        margin: 0;
+      }
+
+      .footer-social {
+        justify-content: center;
+      }
+
+      .footer-nav ul {
+        gap: 20px;
+        flex-wrap: wrap;
       }
     }
   </style>
@@ -274,29 +363,50 @@
     </div>
   </section>
 
-  <section id="portfolio" class="portfolio">
-    <div class="portfolio-grid-wrapper">
-      <div class="portfolio-grid">
-        <img src="img/portfolio1.jpg" alt="포트폴리오1" onclick="goToDetail('파장동 주택공사')">
-        <img src="img/portfolio2.jpg" alt="포트폴리오2" onclick="goToDetail('논현 주얼리샵')">
-        <img src="img/portfolio3.jpg" alt="포트폴리오3">
-        <img src="img/portfolio4.jpg" alt="포트폴리오4">
-      </div>
-    </div>
-    <div class="view-portfolio-wrapper">
-      <a class="view-portfolio-btn" href="inquiry.html">공사문의</a>
-    </div>
-  </section>
-
   <footer>
     <div class="footer-container">
-      <div class="footer-left">
-        <p>경기 수원시 장안구 송정로138번길 13 백산빌딩 6층 601호</p>
-        <p><strong>TEL :</strong> 031-242-0455</p>
-        <p>COPYRIGHT &copy; 2025 아트아이디. ALL RIGHTS RESERVED.</p>
+      <div class="footer-top">
+        <div class="footer-help">
+          <h3>공사문의는 언제든지 전화주세요</h3>
+          <div class="phone">010-2356-9987</div>
+        </div>
+        
+        <div class="footer-center">
+          <div class="footer-logo">
+            <img src="img/logo sub.png" alt="아트아이디 로고">
+          </div>
+          <p class="footer-slogan">공간디자인 전문가가 함께 만들어 가는 새로운 공간</p>
+        </div>
+        
+        <div class="footer-social">
+          <h3>소셜 미디어</h3>
+          <div class="footer-social-icons">
+            <a href="https://blog.naver.com/artid98" target="_blank" title="블로그">
+              <img src="img/icon/blog.png" alt="블로그">
+            </a>
+            <a href="https://www.instagram.com/art_id_98/" target="_blank" title="인스타그램">
+              <img src="img/icon/instar.png" alt="인스타그램">
+            </a>
+            <a href="https://naver.me/G0DT6m87" target="_blank" title="지도">
+              <img src="img/icon/map.png" alt="지도">
+            </a>
+          </div>
+        </div>
       </div>
-      <div class="footer-right">
-        <img src="img/logo sub.jpg" alt="서브 로고">
+      
+      <div class="footer-nav">
+        <ul>
+          <li><a href="contact.html">회사소개</a></li>
+          <li><a href="portfolio.html">공사이력</a></li>
+          <li><a href="inquiry.html">공사문의</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-info">
+        <p>경기 수원시 장안구 송정로138번길 13 백산빌딩 6층 601호 | TEL : 031-242-0455</p>
+        <div class="footer-copyright">
+          <p>COPYRIGHT &copy; 2025 아트아이디. ALL RIGHTS RESERVED.</p>
+        </div>
       </div>
     </div>
   </footer>
@@ -330,13 +440,6 @@
     setInterval(() => {
       moveSlide(1);
     }, 5000);
-
-
-    function goToDetail(title) {
-    const encoded = encodeURIComponent(title);
-    window.location.href = `portfolio.html?title=${encoded}`;
-  }
-
   </script>
 </body>
 </html>

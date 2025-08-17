@@ -86,7 +86,7 @@ const portfolioData = [
 ];
 
 // 카테고리 데이터
-const categories = ['모두보기', '상가', '사무실', '주택'];
+const categories = ['모두보기', '상가', '사무실', '주택', '기타'];
 
 // 애니메이션 설정
 const ANIMATION_CONFIG = {
