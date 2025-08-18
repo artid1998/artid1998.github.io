@@ -813,6 +813,11 @@
     // 썸네일 카드 동적 생성
     function generateThumbnails() {
       const grid = document.getElementById('thumbnail-grid');
+      if (!window.portfolioData) {
+        console.error('portfolioData not found!');
+        return;
+      }
+      
       grid.innerHTML = portfolioData.map((item, index) => `
         <div class="thumb-card" data-category="${item.category}" data-title="${item.title}" data-desc="${item.desc}">
           <img src="img/${item.image}" alt="${item.category}">
@@ -874,6 +879,12 @@
       currentImageIndex = 0;
       thumbnailTrack.innerHTML = '';
       thumbnailTrack.style.transform = 'translateX(0px)';
+      
+      // IMAGE_CONFIG가 있는지 확인
+      if (!window.IMAGE_CONFIG) {
+        console.error('IMAGE_CONFIG not found!');
+        return;
+      }
       
       // 5장으로 제한
       for (let i = 0; i <= 4; i++) {
@@ -965,9 +976,4 @@
     }
 
     // 브라우저 뒤로가기 버튼 지원
-    window.addEventListener('popstate', () => {
-      const params = new URLSearchParams(window.location.search);
-      if (!params.get('title')) {
-        goBackToGrid();
-      }
-    });
+    window.
