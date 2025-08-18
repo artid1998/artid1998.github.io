@@ -5,19 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>회사소개 - 아트아이디</title>
   
-  <!-- Open Graph 메타태그 (카카오톡 링크 미리보기용) -->
+  <!-- Open Graph 메타태그 -->
   <meta property="og:title" content="아트아이디 - 인테리어 전문 업체">
   <meta property="og:description" content="사무실, 상가, 주택 등 다양한 공간의 인테리어 전문 업체입니다">
   <meta property="og:image" content="https://www.artid.co.kr/img/slide1.jpg">
   <meta property="og:url" content="https://www.artid.co.kr">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="아트아이디">
+  
+  <!-- 공통 스타일 로딩 -->
+  <div id="common-styles"></div>
+  
   <style>
+    /* 페이지별 스타일 - 회사소개만 */
     :root {
       --main-blue: #010080;
     }
-
-    * { box-sizing: border-box; }
 
     html, body {
       margin: 0;
@@ -25,49 +28,6 @@
       background-color: #fff;
       color: #333;
       overflow-x: hidden;
-    }
-
-    header {
-      background-color: #ffffff;
-      padding: 20px 0;
-    }
-
-    .main-container {
-      max-width: 1200px;
-      margin: 10px auto;
-    }
-
-    .header-container {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      
-    }
-
-    .logo img {
-      height: 54px;
-    }
-
-    nav ul {
-      list-style: none;
-      display: flex;
-      gap: 60px;
-      margin: 0;
-      padding: 0;
-      
-    }
-
-    nav ul li a {
-      display: inline-block;
-      text-decoration: none;
-      color: #010080;
-      font-weight: bold;
-      font-size: 1.4rem;
-      transition: transform 0.3s ease;
-    }
-
-    nav ul li a:hover {
-      transform: scale(1.2);
     }
 
     .main-visual {
@@ -127,325 +87,67 @@
       }
     }
 
-    footer {
-      background-color: #1a237e;
-      margin-top: 50px;
-      padding: 60px 0 30px 0;
-      width: 100vw;
-      margin-left: calc(50% - 50vw);
-      color: white;
-    }
-
-    .footer-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 40px;
-    }
-
-    .footer-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 40px;
-    }
-
-    .footer-help {
-      text-align: center;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 15px;
-    }
-
-    .footer-help h3 {
-      margin: 0 0 10px 0;
-      font-size: 1.1rem;
-      font-weight: normal;
-      color: #cccccc;
-    }
-
-    .footer-help .phone {
-      font-size: 1.3rem;
-      font-weight: normal;
-      color: white;
-    }
-
-    .footer-center {
-      text-align: center;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .footer-logo {
-      margin-bottom: 15px;
-    }
-
-    .footer-logo img {
-      height: 60px;
-      object-fit: contain;
-      filter: brightness(0) invert(1);
-    }
-
-    .footer-slogan {
-      color: #cccccc;
-      font-size: 0.9rem;
-      margin: 0;
-    }
-
-    .footer-social {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      flex: 1;
-      gap: 15px;
-    }
-
-    .footer-social h3 {
-      margin: 0 0 15px 0;
-      font-size: 1.1rem;
-      font-weight: normal;
-      color: #cccccc;
-    }
-
-    .footer-social-icons {
-      display: flex;
-      gap: 15px;
-    }
-
-    .footer-social a {
-      display: inline-block;
-      color: white;
-      font-size: 1.5rem;
-      text-decoration: none;
-      transition: opacity 0.3s ease;
-    }
-
-    .footer-social a img {
-      width: 24px;
-      height: 24px;
-      filter: brightness(0) invert(1);
-    }
-
-    .footer-social a:hover {
-      opacity: 0.7;
-    }
-
-    .footer-nav {
-      text-align: center;
-      margin-bottom: 30px;
-      padding-bottom: 20px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-    }
-
-    .footer-nav ul {
-      list-style: none;
-      display: flex;
-      justify-content: center;
-      gap: 50px;
-      margin: 0;
-      padding: 0;
-    }
-
-    .footer-nav ul li a {
-      color: white;
-      text-decoration: none;
-      font-size: 1rem;
-      transition: opacity 0.3s ease;
-    }
-
-    .footer-nav ul li a:hover {
-      opacity: 0.7;
-    }
-
-    .footer-info {
-      text-align: center;
-      color: #cccccc;
-      font-size: 0.9rem;
-      line-height: 1.6;
-    }
-
-    .footer-info p {
-      margin: 8px 0;
-    }
-
-    .footer-copyright {
-      margin-top: 20px;
-      padding-top: 20px;
-      border-top: 1px solid rgba(255, 255, 255, 0.2);
-      color: #cccccc;
-      font-size: 0.8rem;
-      text-align: center;
-    }
-
+    /* 반응형 스타일 */
     @media (max-width: 768px) {
-      .main-container {
-        padding: 0 20px;
-      }
-
-      .header-container {
-        flex-direction: column;
-        align-items: center;
-        gap: 20px;
-      }
-
-      nav {
-        width: 100%;
-        text-align: center;
-      }
-
-      nav ul {
-        justify-content: center;
-        gap: 30px;
-      }
-
-      nav ul li a {
-        font-size: 1.2rem;
-      }
-
       .intro-section {
         padding: 0 20px;
-      }
-
-      .footer-top {
-        flex-direction: column;
-        align-items: center;
-        gap: 30px;
-        text-align: center;
-      }
-
-      .footer-help {
-        text-align: center;
-      }
-
-      .footer-center {
-        margin: 0;
-      }
-
-      .footer-social {
-        justify-content: center;
-      }
-
-      .footer-nav ul {
-        gap: 20px;
-        flex-wrap: wrap;
       }
     }
   </style>
 </head>
 <body>
+  <!-- 헤더 플레이스홀더 -->
+  <div id="header-placeholder"></div>
 
-<header>
-  <div class="main-container header-container">
-    <div class="logo">
-      <a href="index.html">
-        <img src="img/logo.jpg" alt="로고">
-      </a>
+  <section class="main-visual">
+    <div class="text">
+      <h1>About Us</h1>
+      <p>공간은 사람을 담고, 디자인은 마음을 잇습니다</p>
     </div>
-    <nav>
-      <ul>
-        <li><a href="contact.html">회사소개</a></li>
-        <li><a href="portfolio.html">공사이력</a></li>
-        <li><a href="inquiry.html">공사문의</a></li>
-      </ul>
-    </nav>
-  </div>
-</header>
+  </section>
 
-<section class="main-visual">
-  <div class="text">
-    <h1>About Us</h1>
-    <p>공간은 사람을 담고, 디자인은 마음을 잇습니다</p>
-  </div>
-</section>
-
-<section class="intro-section">
-  <div style="flex: 1 1 400px; min-width: 300px;">
-    <img src="img/contact.jpg" alt="회사소개 이미지">
-  </div>
-
-  <div class="intro-text">
-    <h2 style="font-size: 2rem; margin-bottom: 10px;">회사소개</h2>
-    <h3 style="color: #010080; font-size: 1.5rem; margin: 10px 0 20px;">CREATIVE HUMAN SPACE</h3>
-
-    <p style="color: #010080; font-weight: bold; margin-bottom: 20px;" class="fade-in-paragraph">인간을 위한 진짜 공간, 아트아이디가 만들어갑니다.</p>
-
-    <p class="fade-in-paragraph"><strong>아트아이디</strong>는 사람 중심의 공간 디자인을 추구하는 실내 인테리어 전문 기업입니다.<br>
-      사무실, 상가, 주택 등 다양한 생활 공간 속에서 새로운 생각을 실현시키며<br>
-      <strong>자연 친화적인 디자인</strong>을 통해 공간의 가치를 높이고자 합니다.</p>
-
-    <p class="fade-in-paragraph"><strong>1998년 설립 이후</strong> 30년 가까운 노하우를 바탕으로<br>
-      기획부터 설계, 시공까지 전 과정을 책임지고 있으며,<br>
-      고객의 라이프스타일과 목적에 최적화된 <strong>맞춤형 인테리어</strong>를 제안합니다.</p>
-
-    <p class="fade-in-paragraph">단순히 보기 좋은 공간을 넘어 <strong>사용자의 편안함과 효율</strong>을 고려한 설계로<br>
-      오랜 시간 <strong>신뢰를 쌓아온 아트아이디</strong>는 실내 인테리어는 물론,<br>
-      사무실・상가・주택 리모델링까지, <strong>합리적인 비용과 성실한 시공</strong>으로<br>
-      최상의 결과를 약속드립니다.</p>
-
-    <p class="fade-in-paragraph" style="margin-top: 30px; font-weight: bold;">대표 문영주</p>
-    <p class="fade-in-paragraph" style="color: #666;">Young-Joo Moon, President, CEO</p>
-
-    <div style="margin-top: 30px;">
-      <a href="https://blog.naver.com/artid98" target="_blank"
-         style="display: inline-block; padding: 10px 20px; background-color: #464691; color: #fff;
-                text-decoration: none; font-weight: bold; border-radius: 4px;">
-        공식 블로그 방문하기
-      </a>
+  <section class="intro-section">
+    <div style="flex: 1 1 400px; min-width: 300px;">
+      <img src="img/contact.jpg" alt="회사소개 이미지">
     </div>
-  </div>
-</section>
 
-  <footer>
-    <div class="footer-container">
-      <div class="footer-top">
-        <div class="footer-help">
-          <h3>공사문의는 언제든지 전화주세요</h3>
-          <div class="phone">010-2356-9987 / 031-242-0455</div>
-        </div>
-        
-        <div class="footer-center">
-          <div class="footer-logo">
-            <img src="img/logo sub.png" alt="아트아이디 로고">
-          </div>
-          <p class="footer-slogan">공간디자인 전문가가 함께 만들어 가는 새로운 공간</p>
-        </div>
-        
-        <div class="footer-social">
-          <h3>소셜 미디어</h3>
-          <div class="footer-social-icons">
-            <a href="https://blog.naver.com/artid98" target="_blank" title="블로그">
-              <img src="img/icon/blog.png" alt="블로그">
-            </a>
-            <a href="https://www.instagram.com/art_id_98/" target="_blank" title="인스타그램">
-              <img src="img/icon/instar.png" alt="인스타그램">
-            </a>
-            <a href="https://naver.me/G0DT6m87" target="_blank" title="지도">
-              <img src="img/icon/map.png" alt="지도">
-            </a>
-          </div>
-        </div>
-      </div>
-      
-      <div class="footer-nav">
-        <ul>
-          <li><a href="contact.html">회사소개</a></li>
-          <li><a href="portfolio.html">공사이력</a></li>
-          <li><a href="inquiry.html">공사문의</a></li>
-        </ul>
-      </div>
-      
-      <div class="footer-info">
-        <p>경기 수원시 장안구 송정로138번길 13 백산빌딩 6층 601호 | TEL : 031-242-0455</p>
-        <div class="footer-copyright">
-          <p>COPYRIGHT &copy; 1998 아트아이디. ALL RIGHTS RESERVED.</p>
-        </div>
+    <div class="intro-text">
+      <h2 style="font-size: 2rem; margin-bottom: 10px;">회사소개</h2>
+      <h3 style="color: #010080; font-size: 1.5rem; margin: 10px 0 20px;">CREATIVE HUMAN SPACE</h3>
+
+      <p style="color: #010080; font-weight: bold; margin-bottom: 20px;" class="fade-in-paragraph">인간을 위한 진짜 공간, 아트아이디가 만들어갑니다.</p>
+
+      <p class="fade-in-paragraph"><strong>아트아이디</strong>는 사람 중심의 공간 디자인을 추구하는 실내 인테리어 전문 기업입니다.<br>
+        사무실, 상가, 주택 등 다양한 생활 공간 속에서 새로운 생각을 실현시키며<br>
+        <strong>자연 친화적인 디자인</strong>을 통해 공간의 가치를 높이고자 합니다.</p>
+
+      <p class="fade-in-paragraph"><strong>1998년 설립 이후</strong> 30년 가까운 노하우를 바탕으로<br>
+        기획부터 설계, 시공까지 전 과정을 책임지고 있으며,<br>
+        고객의 라이프스타일과 목적에 최적화된 <strong>맞춤형 인테리어</strong>를 제안합니다.</p>
+
+      <p class="fade-in-paragraph">단순히 보기 좋은 공간을 넘어 <strong>사용자의 편안함과 효율</strong>을 고려한 설계로<br>
+        오랜 시간 <strong>신뢰를 쌓아온 아트아이디</strong>는 실내 인테리어는 물론,<br>
+        사무실・상가・주택 리모델링까지, <strong>합리적인 비용과 성실한 시공</strong>으로<br>
+        최상의 결과를 약속드립니다.</p>
+
+      <p class="fade-in-paragraph" style="margin-top: 30px; font-weight: bold;">대표 문영주</p>
+      <p class="fade-in-paragraph" style="color: #666;">Young-Joo Moon, President, CEO</p>
+
+      <div style="margin-top: 30px;">
+        <a href="https://blog.naver.com/artid98" target="_blank"
+           style="display: inline-block; padding: 10px 20px; background-color: #464691; color: #fff;
+                  text-decoration: none; font-weight: bold; border-radius: 4px;">
+          공식 블로그 방문하기
+        </a>
       </div>
     </div>
-  </footer>
+  </section>
+
+  <!-- 푸터 플레이스홀더 -->
+  <div id="footer-placeholder"></div>
+
+  <!-- 공통 컴포넌트 로딩 -->
+  <script src="components.js"></script>
 
 </body>
 </html>

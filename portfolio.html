@@ -12,12 +12,20 @@
   <meta property="og:url" content="https://www.artid.co.kr">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="아트아이디">
+  
+  <!-- 공통 스타일 로딩 -->
+  <div id="common-styles"></div>
+  
   <style>
+
+   * { box-sizing: border-box; }
+
     :root {
       --main-blue: #010080;
       --main-blue-alpha: rgba(1, 0, 128, 0.25);
       --main-blue-hover: rgba(1, 0, 128, 0.6);
     }
+
 
     body {
       margin: 0;
@@ -26,57 +34,16 @@
       color: #333;
     }
 
-    header {
-      background-color: #ffffff;
-      padding: 20px 0;
-    }
-
-    .main-container {
-      max-width: 1200px;
-      margin: 10px auto;
-      padding: 0 40px;
-    }
-
-    .header-container {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-    }
-
-    .logo img {
-      height: 54px;
-    }
-
-    nav ul {
-      list-style: none;
-      display: flex;
-      gap: 60px;
-      margin: 0;
-      padding: 0;
-      flex-wrap: wrap;
-    }
-
-    nav ul li a {
-      display: inline-block;
-      text-decoration: none;
-      color: #010080;
-      font-weight: bold;
-      font-size: 1.4rem;
-      transition: transform 0.3s ease;
-      min-width: 80px;
-      text-align: center;
-    }
-
-    nav ul li a:hover {
-      transform: scale(1.2);
-    }
-
     .container {
       max-width: 1200px;
       margin: 0 auto;
       padding: 0 40px;
       min-height: calc(120vh - 300px);
+    }
+
+    /* 헤더 컬테이너 팩딩 초기화 */
+    .main-container {
+      padding: 0 40px !important;
     }
 
     .main-visual {
@@ -105,6 +72,8 @@
 
     .category-menu {
       width: 200px;
+      min-width: 200px;
+      flex-shrink: 0;
     }
 
     .category-menu .menu-title {
@@ -176,9 +145,35 @@
       margin-bottom: 8px;
     }
 
-
-
     .menu-buttons a:hover {
+      background-color: white;
+      color: var(--main-blue);
+      border: 2px solid var(--main-blue);
+    }
+
+    .detail-buttons {
+      margin-top: 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .detail-buttons a {
+      display: block;
+      color: white;
+      text-decoration: none;
+      padding: 15px 20px;
+      text-align: center;
+      font-weight: bold;
+      font-size: 1rem;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      background-color: var(--main-blue);
+      border-radius: 4px;
+      border: 2px solid transparent;
+      box-sizing: border-box;
+    }
+
+    .detail-buttons a:hover {
       background-color: white;
       color: var(--main-blue);
       border: 2px solid var(--main-blue);
@@ -202,9 +197,27 @@
       border: 1px solid #ccc;
       cursor: pointer;
       font-size: 1.2rem;
-      min-width: 100px;
+      min-width: 120px;
       text-align: center;
       transition: all 0.3s ease;
+      box-sizing: border-box;
+    }
+
+    /* 중간 화면에서 4+1 레이아웃 */
+    @media (max-width: 900px) {
+      .category-tabs div:nth-child(5) {
+        flex: 1 1 100%;
+      }
+    }
+
+    /* 작은 화면에서 2x2+1 레이아웃 */
+    @media (max-width: 600px) {
+      .category-tabs div {
+        flex: 1 1 calc(50% - 5px);
+      }
+      .category-tabs div:nth-child(5) {
+        flex: 1 1 100%;
+      }
     }
 
     .category-tabs div:hover {
@@ -219,22 +232,23 @@
 
     .thumbnail-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      grid-template-columns: repeat(3, 1fr);
       gap: 20px;
       min-height: 400px;
     }
     
-    @media (max-width: 950px) {
+    @media (max-width: 1220px) {
       .thumbnail-grid {
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        grid-template-columns: repeat(2, 1fr);
       }
     }
     
-    @media (max-width: 600px) {
+    @media (max-width: 768px) {
       .thumbnail-grid {
         grid-template-columns: 1fr;
       }
     }
+
     .thumb-card {
       position: relative;
       overflow: hidden;
@@ -357,11 +371,13 @@
     #thumbnail-container {
       position: relative;
       width: 100%;
-      max-width: 950px;
+      max-width: none;
       overflow: hidden;
       cursor: grab;
       user-select: none;
       touch-action: pan-x;
+      margin: 0 -20px;
+      padding: 0 20px;
     }
     
     #thumbnail-container.dragging {
@@ -384,7 +400,7 @@
       border: 3px solid transparent;
       transition: all 0.3s ease;
       overflow: hidden;
-      pointer-events: none;
+      pointer-events: auto;
       margin-right: 6px;
     }
 
@@ -392,7 +408,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      pointer-events: auto;
+      pointer-events: none;
     }
 
     .thumbnail-item.active {
@@ -422,161 +438,7 @@
       box-shadow: 0 0 20px black;
     }
 
-    footer {
-      background-color: #1a237e;
-      margin-top: 50px;
-      padding: 60px 0 30px 0;
-      width: 100vw;
-      margin-left: calc(50% - 50vw);
-      color: white;
-    }
-
-    .footer-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 40px;
-    }
-
-    .footer-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 40px;
-    }
-
-    .footer-help {
-      text-align: center;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 15px;
-    }
-
-    .footer-help h3 {
-      margin: 0 0 10px 0;
-      font-size: 1.1rem;
-      font-weight: normal;
-      color: #cccccc;
-    }
-
-    .footer-help .phone {
-      font-size: 1.3rem;
-      font-weight: normal;
-      color: white;
-    }
-
-    .footer-center {
-      text-align: center;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .footer-logo {
-      margin-bottom: 15px;
-    }
-
-    .footer-logo img {
-      height: 60px;
-      object-fit: contain;
-      filter: brightness(0) invert(1);
-    }
-
-    .footer-slogan {
-      color: #cccccc;
-      font-size: 0.9rem;
-      margin: 0;
-    }
-
-    .footer-social {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      flex: 1;
-      gap: 15px;
-    }
-
-    .footer-social h3 {
-      margin: 0 0 15px 0;
-      font-size: 1.1rem;
-      font-weight: normal;
-      color: #cccccc;
-    }
-
-    .footer-social-icons {
-      display: flex;
-      gap: 15px;
-    }
-
-    .footer-social a {
-      display: inline-block;
-      color: white;
-      font-size: 1.5rem;
-      text-decoration: none;
-      transition: opacity 0.3s ease;
-    }
-
-    .footer-social a img {
-      width: 24px;
-      height: 24px;
-      filter: brightness(0) invert(1);
-    }
-
-    .footer-social a:hover {
-      opacity: 0.7;
-    }
-
-    .footer-nav {
-      text-align: center;
-      margin-bottom: 30px;
-      padding-bottom: 20px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-    }
-
-    .footer-nav ul {
-      list-style: none;
-      display: flex;
-      justify-content: center;
-      gap: 50px;
-      margin: 0;
-      padding: 0;
-    }
-
-    .footer-nav ul li a {
-      color: white;
-      text-decoration: none;
-      font-size: 1rem;
-      transition: opacity 0.3s ease;
-    }
-
-    .footer-nav ul li a:hover {
-      opacity: 0.7;
-    }
-
-    .footer-info {
-      text-align: center;
-      color: #cccccc;
-      font-size: 0.9rem;
-      line-height: 1.6;
-    }
-
-    .footer-info p {
-      margin: 8px 0;
-    }
-
-    .footer-copyright {
-      margin-top: 20px;
-      padding-top: 20px;
-      border-top: 1px solid rgba(255, 255, 255, 0.2);
-      color: #cccccc;
-      font-size: 0.8rem;
-      text-align: center;
-    }
-
-    @media (max-width: 1220px) {
+    @media (max-width: 1100px) {
       .category-section {
         flex-direction: column;
       }
@@ -590,49 +452,14 @@
         padding-left: 0;
       }
 
-      .header-container {
-        flex-direction: column;
-        align-items: center;
-        gap: 20px;
-      }
-
-      nav {
-        width: 100%;
-        text-align: center;
-      }
-
-      nav ul {
-        justify-content: center;
-        gap: 30px;
+      .detail-buttons {
+        display: flex !important;
       }
     }
 
     @media (max-width: 768px) {
-      .main-container,
       .container {
         padding: 0 20px;
-      }
-
-      .header-container {
-        flex-direction: column;
-        align-items: center;
-        gap: 20px;
-      }
-
-      nav {
-        width: 100%;
-        text-align: center;
-      }
-
-      nav ul {
-        flex-direction: row;
-        justify-content: center;
-        gap: 30px;
-        font-size: 0.9rem;
-      }
-
-      nav ul li a {
-        font-size: 1.2rem;
       }
 
       .main-visual h1 {
@@ -647,50 +474,12 @@
         width: 100%;
         text-align: center;
       }
-
-      .footer-top {
-        flex-direction: column;
-        align-items: center;
-        gap: 30px;
-        text-align: center;
-      }
-
-      .footer-help {
-        text-align: center;
-      }
-
-      .footer-center {
-        margin: 0;
-      }
-
-      .footer-social {
-        justify-content: center;
-      }
-
-      .footer-nav ul {
-        gap: 20px;
-        flex-wrap: wrap;
-      }
     }
   </style>
 </head>
 <body>
-<header>
-  <div class="main-container header-container">
-    <div class="logo">
-      <a href="index.html">
-        <img src="img/logo.jpg" alt="로고">
-      </a>
-    </div>
-    <nav>
-      <ul>
-        <li><a href="contact.html">회사소개</a></li>
-        <li><a href="portfolio.html">공사이력</a></li>
-        <li><a href="inquiry.html">공사문의</a></li>
-      </ul>
-    </nav>
-  </div>
-</header>
+  <!-- 헤더 플레이스홀더 -->
+  <div id="header-placeholder"></div>
 
   <section class="main-visual">
     <div class="text">
@@ -738,7 +527,10 @@
           </div>
           <h2 id="detail-title"></h2>
           <p id="detail-desc"></p>
-          <button class="back-btn" onclick="window.location.href='inquiry.html'">공사문의</button>
+          <div class="detail-buttons" style="display: none;">
+            <a href="https://blog.naver.com/artid98" target="_blank">블로그 방문</a>
+            <a href="inquiry.html">공사문의</a>
+          </div>
         </div>
       </div>
     </div>
@@ -748,54 +540,11 @@
     <img id="modal-image" src="">
   </div>
 
-  <footer>
-    <div class="footer-container">
-      <div class="footer-top">
-        <div class="footer-help">
-          <h3>공사문의는 언제든지 전화주세요</h3>
-          <div class="phone">010-2356-9987 / 031-242-0455</div>
-        </div>
-        
-        <div class="footer-center">
-          <div class="footer-logo">
-            <img src="img/logo sub.png" alt="아트아이디 로고">
-          </div>
-          <p class="footer-slogan">공간디자인 전문가가 함께 만들어 가는 새로운 공간</p>
-        </div>
-        
-        <div class="footer-social">
-          <h3>소셜 미디어</h3>
-          <div class="footer-social-icons">
-            <a href="https://blog.naver.com/artid98" target="_blank" title="블로그">
-              <img src="img/icon/blog.png" alt="블로그">
-            </a>
-            <a href="https://www.instagram.com/art_id_98/" target="_blank" title="인스타그램">
-              <img src="img/icon/instar.png" alt="인스타그램">
-            </a>
-            <a href="https://naver.me/G0DT6m87" target="_blank" title="지도">
-              <img src="img/icon/map.png" alt="지도">
-            </a>
-          </div>
-        </div>
-      </div>
-      
-      <div class="footer-nav">
-        <ul>
-          <li><a href="contact.html">회사소개</a></li>
-          <li><a href="portfolio.html">공사이력</a></li>
-          <li><a href="inquiry.html">공사문의</a></li>
-        </ul>
-      </div>
-      
-      <div class="footer-info">
-        <p>경기 수원시 장안구 송정로138번길 13 백산빌딩 6층 601호 | TEL : 031-242-0455</p>
-        <div class="footer-copyright">
-          <p>COPYRIGHT &copy; 1998 아트아이디. ALL RIGHTS RESERVED.</p>
-        </div>
-      </div>
-    </div>
-  </footer>
+  <!-- 푸터 플레이스홀더 -->
+  <div id="footer-placeholder"></div>
 
+  <!-- 공통 컴포넌트 로딩 -->
+  <script src="components.js"></script>
   <script src="data.js"></script>
   <script>
     const tabButtons = document.querySelectorAll('.category-tabs div');
@@ -814,6 +563,7 @@
     // 썸네일 카드 동적 생성
     function generateThumbnails() {
       const grid = document.getElementById('thumbnail-grid');
+      
       grid.innerHTML = portfolioData.map((item, index) => `
         <div class="thumb-card" data-category="${item.category}" data-title="${item.title}" data-desc="${item.desc}">
           <img src="img/${item.image}" alt="${item.category}">
@@ -876,8 +626,8 @@
       thumbnailTrack.innerHTML = '';
       thumbnailTrack.style.transform = 'translateX(0px)';
       
-      // 5장으로 제한
-      for (let i = 0; i <= 4; i++) {
+      // 7장으로 제한
+      for (let i = 0; i <= 6; i++) {
         const mainSrc = IMAGE_CONFIG.getMainImagePath(title, i);
         const thumbSrc = IMAGE_CONFIG.getThumbnailImagePath(title, i);
         
@@ -908,10 +658,18 @@
       img.alt = `썸네일 ${index + 1}`;
       
       thumbnailItem.appendChild(img);
-      thumbnailItem.onclick = (e) => {
+      
+      // 클릭 및 터치 이벤트 모두 처리
+      thumbnailItem.addEventListener('click', (e) => {
         e.stopPropagation();
         showMainImage(index);
-      };
+      });
+      
+      thumbnailItem.addEventListener('touchend', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        showMainImage(index);
+      });
       
       thumbnailTrack.appendChild(thumbnailItem);
     }
@@ -981,30 +739,33 @@
       let startX = 0;
       let scrollLeft = 0;
       let currentTransform = 0;
+      let hasMoved = false;
       
       // 마우스 이벤트
       container.addEventListener('mousedown', (e) => {
         isDragging = true;
+        hasMoved = false;
         container.classList.add('dragging');
-        startX = e.pageX - container.offsetLeft;
+        startX = e.pageX;
         scrollLeft = currentTransform;
         e.preventDefault();
       });
       
-      container.addEventListener('mouseleave', () => {
+      document.addEventListener('mouseleave', () => {
         isDragging = false;
         container.classList.remove('dragging');
       });
       
-      container.addEventListener('mouseup', () => {
+      document.addEventListener('mouseup', () => {
         isDragging = false;
         container.classList.remove('dragging');
       });
       
-      container.addEventListener('mousemove', (e) => {
+      document.addEventListener('mousemove', (e) => {
         if (!isDragging) return;
         e.preventDefault();
-        const x = e.pageX - container.offsetLeft;
+        hasMoved = true;
+        const x = e.pageX;
         const walk = (x - startX) * 2;
         const newTransform = scrollLeft + walk;
         
@@ -1018,19 +779,30 @@
       // 터치 이벤트
       container.addEventListener('touchstart', (e) => {
         isDragging = true;
-        startX = e.touches[0].pageX - container.offsetLeft;
+        hasMoved = false;
+        startX = e.touches[0].pageX;
         scrollLeft = currentTransform;
-        e.preventDefault();
-      }, { passive: false });
+      }, { passive: true });
       
-      container.addEventListener('touchend', () => {
+      container.addEventListener('touchend', (e) => {
         isDragging = false;
+        if (!hasMoved) {
+          // 터치만 하고 드래그하지 않았다면 클릭 이벤트로 처리
+          const touchTarget = e.target.closest('.thumbnail-item');
+          if (touchTarget) {
+            const thumbnailItems = Array.from(track.children);
+            const index = thumbnailItems.indexOf(touchTarget);
+            if (index !== -1) {
+              showMainImage(index);
+            }
+          }
+        }
       });
       
       container.addEventListener('touchmove', (e) => {
         if (!isDragging) return;
-        e.preventDefault();
-        const x = e.touches[0].pageX - container.offsetLeft;
+        hasMoved = true;
+        const x = e.touches[0].pageX;
         const walk = (x - startX) * 2;
         const newTransform = scrollLeft + walk;
         
@@ -1039,7 +811,7 @@
         currentTransform = Math.max(-maxScroll, Math.min(0, newTransform));
         
         track.style.transform = `translateX(${currentTransform}px)`;
-      }, { passive: false });
+      }, { passive: true });
       
       // 휠 스크롤 지원
       container.addEventListener('wheel', (e) => {
@@ -1053,156 +825,6 @@
         track.style.transform = `translateX(${currentTransform}px)`;
       }, { passive: false });
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-      generateThumbnails();
-      
-      const params = new URLSearchParams(window.location.search);
-      const titleParam = params.get('title');
-      if (!titleParam) return;
-
-      setTimeout(() => {
-        const matched = [...document.querySelectorAll('.thumb-card')].find(card =>
-          card.dataset.title === titleParam
-        );
-        if (matched) {
-          matched.click();
-          matched.scrollIntoView({ behavior: 'smooth' });
-        }
-      }, 100);
-    });
-  </script>
-</body>
-</html>.display = 'none';
-          detailView.style.display = 'block';
-          
-          // URL에 title 파라미터 추가 (브라우저 히스토리 지원)
-          const url = new URL(window.location);
-          url.searchParams.set('title', title);
-          window.history.pushState({}, '', url);
-          
-          loadImages(title);
-        };
-      });
-    }
-
-    tabButtons.forEach(btn => btn.onclick = () => {
-      const cat = btn.textContent.trim();
-      tabButtons.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      menuItems.forEach(item => item.classList.toggle('active', item.textContent.trim() === cat));
-      filterCategory(cat);
-    });
-
-    menuItems.forEach(item => item.onclick = () => {
-      const cat = item.textContent.trim();
-      menuItems.forEach(li => li.classList.remove('active'));
-      item.classList.add('active');
-      tabButtons.forEach(tab => tab.classList.toggle('active', tab.textContent.trim() === cat));
-      filterCategory(cat);
-    });
-
-    function filterCategory(category) {
-      thumbCards.forEach(card => {
-        card.style.display = (category === '모두보기' || card.dataset.category === category) ? 'block' : 'none';
-      });
-      thumbnailGrid.style.display = 'grid';
-      detailView.style.display = 'none';
-    }
-
-    function loadImages(title) {
-      imagePaths = [];
-      currentImageIndex = 0;
-      thumbnailTrack.innerHTML = '';
-      
-      // 5장으로 제한
-      for (let i = 0; i <= 4; i++) {
-        const mainSrc = IMAGE_CONFIG.getMainImagePath(title, i);
-        const thumbSrc = IMAGE_CONFIG.getThumbnailImagePath(title, i);
-        
-        const img = new Image();
-        img.src = mainSrc;
-        img.onload = () => {
-          imagePaths.push({ main: mainSrc, thumb: thumbSrc });
-          createThumbnail(thumbSrc, mainSrc, imagePaths.length - 1);
-          if (imagePaths.length === 1) {
-            showMainImage(0);
-          }
-        };
-      }
-    }
-
-    function createThumbnail(thumbSrc, mainSrc, index) {
-      const thumbnailItem = document.createElement('div');
-      thumbnailItem.className = 'thumbnail-item';
-      if (index === 0) thumbnailItem.classList.add('active');
-      
-      const img = document.createElement('img');
-      img.src = thumbSrc;
-      img.alt = `썸네일 ${index + 1}`;
-      
-      thumbnailItem.appendChild(img);
-      thumbnailItem.onclick = () => showMainImage(index);
-      
-      thumbnailTrack.appendChild(thumbnailItem);
-    }
-
-    function showMainImage(index) {
-      currentImageIndex = index;
-      const newImageSrc = imagePaths[index].main;
-      
-      mainImageOverlay.src = newImageSrc;
-      mainImageOverlay.onload = () => {
-        mainImageOverlay.classList.add('loaded');
-        mainImageOverlay.onclick = () => showModal(newImageSrc);
-      };
-      
-      mainImageOverlay.classList.add('fade-in');
-      
-      setTimeout(() => {
-        mainImage.src = newImageSrc;
-        mainImage.onload = () => {
-          mainImage.classList.add('loaded');
-          mainImage.onclick = () => showModal(newImageSrc);
-        };
-        mainImageOverlay.classList.remove('fade-in');
-      }, 300);
-      
-      document.querySelectorAll('.thumbnail-item').forEach((item, i) => {
-        item.classList.toggle('active', i === index);
-      });
-    }
-
-    document.querySelector('.main-visual').addEventListener('click', () => {
-      window.location.href = 'portfolio.html';
-    });
-
-    function showModal(src) {
-      modalImage.src = src;
-      imageModal.style.display = 'flex';
-    }
-
-    imageModal.addEventListener('click', e => {
-      if (e.target === imageModal) imageModal.style.display = 'none';
-    });
-
-    function goBackToGrid() {
-      detailView.style.display = 'none';
-      thumbnailGrid.style.display = 'grid';
-      
-      // URL에서 파라미터 제거
-      const url = new URL(window.location);
-      url.searchParams.delete('title');
-      window.history.replaceState({}, '', url);
-    }
-
-    // 브라우저 뒤로가기 버튼 지원
-    window.addEventListener('popstate', () => {
-      const params = new URLSearchParams(window.location.search);
-      if (!params.get('title')) {
-        goBackToGrid();
-      }
-    });
 
     window.addEventListener('DOMContentLoaded', () => {
       generateThumbnails();
