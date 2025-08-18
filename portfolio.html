@@ -813,10 +813,6 @@
     // 썸네일 카드 동적 생성
     function generateThumbnails() {
       const grid = document.getElementById('thumbnail-grid');
-      if (!window.portfolioData) {
-        console.error('portfolioData not found!');
-        return;
-      }
       
       grid.innerHTML = portfolioData.map((item, index) => `
         <div class="thumb-card" data-category="${item.category}" data-title="${item.title}" data-desc="${item.desc}">
@@ -879,12 +875,6 @@
       currentImageIndex = 0;
       thumbnailTrack.innerHTML = '';
       thumbnailTrack.style.transform = 'translateX(0px)';
-      
-      // IMAGE_CONFIG가 있는지 확인
-      if (!window.IMAGE_CONFIG) {
-        console.error('IMAGE_CONFIG not found!');
-        return;
-      }
       
       // 5장으로 제한
       for (let i = 0; i <= 4; i++) {
@@ -976,4 +966,111 @@
     }
 
     // 브라우저 뒤로가기 버튼 지원
-    window.
+    window.addEventListener('popstate', () => {
+      const params = new URLSearchParams(window.location.search);
+      if (!params.get('title')) {
+        goBackToGrid();
+      }
+    });
+
+    // 썸네일 드래그 기능 구현
+    function initThumbnailDrag() {
+      const container = document.getElementById('thumbnail-container');
+      const track = document.getElementById('thumbnail-track');
+      let isDragging = false;
+      let startX = 0;
+      let scrollLeft = 0;
+      let currentTransform = 0;
+      
+      // 마우스 이벤트
+      container.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        container.classList.add('dragging');
+        startX = e.pageX - container.offsetLeft;
+        scrollLeft = currentTransform;
+        e.preventDefault();
+      });
+      
+      container.addEventListener('mouseleave', () => {
+        isDragging = false;
+        container.classList.remove('dragging');
+      });
+      
+      container.addEventListener('mouseup', () => {
+        isDragging = false;
+        container.classList.remove('dragging');
+      });
+      
+      container.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        e.preventDefault();
+        const x = e.pageX - container.offsetLeft;
+        const walk = (x - startX) * 2;
+        const newTransform = scrollLeft + walk;
+        
+        // 경계 체크
+        const maxScroll = Math.max(0, track.scrollWidth - container.clientWidth);
+        currentTransform = Math.max(-maxScroll, Math.min(0, newTransform));
+        
+        track.style.transform = `translateX(${currentTransform}px)`;
+      });
+      
+      // 터치 이벤트
+      container.addEventListener('touchstart', (e) => {
+        isDragging = true;
+        startX = e.touches[0].pageX - container.offsetLeft;
+        scrollLeft = currentTransform;
+        e.preventDefault();
+      }, { passive: false });
+      
+      container.addEventListener('touchend', () => {
+        isDragging = false;
+      });
+      
+      container.addEventListener('touchmove', (e) => {
+        if (!isDragging) return;
+        e.preventDefault();
+        const x = e.touches[0].pageX - container.offsetLeft;
+        const walk = (x - startX) * 2;
+        const newTransform = scrollLeft + walk;
+        
+        // 경계 체크
+        const maxScroll = Math.max(0, track.scrollWidth - container.clientWidth);
+        currentTransform = Math.max(-maxScroll, Math.min(0, newTransform));
+        
+        track.style.transform = `translateX(${currentTransform}px)`;
+      }, { passive: false });
+      
+      // 휠 스크롤 지원
+      container.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        const delta = e.deltaY || e.deltaX;
+        const newTransform = currentTransform - delta;
+        
+        const maxScroll = Math.max(0, track.scrollWidth - container.clientWidth);
+        currentTransform = Math.max(-maxScroll, Math.min(0, newTransform));
+        
+        track.style.transform = `translateX(${currentTransform}px)`;
+      }, { passive: false });
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      generateThumbnails();
+      
+      const params = new URLSearchParams(window.location.search);
+      const titleParam = params.get('title');
+      if (!titleParam) return;
+
+      setTimeout(() => {
+        const matched = [...document.querySelectorAll('.thumb-card')].find(card =>
+          card.dataset.title === titleParam
+        );
+        if (matched) {
+          matched.click();
+          matched.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+    });
+  </script>
+</body>
+</html>
