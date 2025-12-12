@@ -82,7 +82,15 @@ const portfolioData = [
     title: "크몽 벤틀스페이스",
     desc: "크몽 벤틀스페이스 사무실 인테리어 작업입니다.",
     image: IMAGE_CONFIG.getProjectThumbnailPath("크몽 벤틀스페이스")
-  }
+   },
+  {
+    category: "상가",
+    title: "매봉역 만세감사탕",
+    desc: "매봉역 만세감사탕 매장 인테리어 작업입니다.",
+    image: IMAGE_CONFIG.getProjectThumbnailPath("매봉역 만세감사탕")
+  },
+
+
 ];
 
 // 카테고리 데이터
