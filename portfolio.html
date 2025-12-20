@@ -564,7 +564,7 @@
     function generateThumbnails() {
       const grid = document.getElementById('thumbnail-grid');
       
-      grid.innerHTML = portfolioData.map((item, index) => `
+      grid.innerHTML = portfolioData.slice().reverse().map((item, index) => `
         <div class="thumb-card" data-category="${item.category}" data-title="${item.title}" data-desc="${item.desc}">
           <img src="img/${item.image}" alt="${item.category}">
           <div class="thumb-title">${item.title}</div>

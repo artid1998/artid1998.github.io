@@ -27,16 +27,8 @@ const portfolioData = [
     desc: "건대에 위치한 무인카페 인테리어 작업입니다.",
     image: IMAGE_CONFIG.getProjectThumbnailPath("건대 무인카페 밍글")
   },
-  /*
   {
-    category: "상가",
-    title: "베이커리 카페 달꿈",
-    desc: "베이커리 카페의 따뜻한 분위기를 살린 인테리어 작업입니다.",
-    image: IMAGE_CONFIG.getProjectThumbnailPath("베이커리 카페 달꿈")
-  },
-  */
-  {
-    category: "상가",
+    category: "사무실",
     title: "송월타월 대리점 부분공사",
     desc: "송월타월 대리점의 부분 리모델링 작업입니다.",
     image: IMAGE_CONFIG.getProjectThumbnailPath("송월타월 대리점 부분공사")
@@ -78,9 +70,9 @@ const portfolioData = [
     image: IMAGE_CONFIG.getProjectThumbnailPath("주택 캐노피공사")
   },
   {
-    category: "사무실",
+    category: "상가",
     title: "크몽 벤틀스페이스",
-    desc: "크몽 벤틀스페이스 사무실 인테리어 작업입니다.",
+    desc: "크몽 벤틀스페이스 미용실 인테리어 작업입니다.",
     image: IMAGE_CONFIG.getProjectThumbnailPath("크몽 벤틀스페이스")
    },
   {
@@ -88,9 +80,13 @@ const portfolioData = [
     title: "매봉역 만세감사탕",
     desc: "매봉역 만세감사탕 매장 인테리어 작업입니다.",
     image: IMAGE_CONFIG.getProjectThumbnailPath("매봉역 만세감사탕")
-  },
-
-
+    },
+    {
+    category: "상가",
+    title: "이수 벤틀스페이스",
+    desc: "이수 벤틀스페이스 미용실 인테리어 작업입니다.",
+        image: IMAGE_CONFIG.getProjectThumbnailPath("이수 벤틀스페이스")
+    }
 ];
 
 // 카테고리 데이터
