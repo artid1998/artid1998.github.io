@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>프로젝트 상세 - 인테리어 포트폴리오</title>
+  <title>공사이력 - 아트아이디</title>
   
   <!-- Open Graph 메타태그 (카카오톡 링크 미리보기용) -->
   <meta property="og:title" content="아트아이디 - 인테리어 전문 업체">
@@ -561,16 +561,37 @@
     let imagePaths = [], currentImageIndex = 0;
 
     // 썸네일 카드 동적 생성
-    function generateThumbnails() {
+    async function generateThumbnails() {
       const grid = document.getElementById('thumbnail-grid');
+      grid.innerHTML = ''; // 초기화
       
-      grid.innerHTML = portfolioData.slice().reverse().map((item, index) => `
-        <div class="thumb-card" data-category="${item.category}" data-title="${item.title}" data-desc="${item.desc}">
-          <img src="img/${item.image}" alt="${item.category}">
-          <div class="thumb-title">${item.title}</div>
-          <div class="thumb-overlay">${item.title}</div>
-        </div>
-      `).join('');
+      // 역순으로 처리
+      const reversedData = portfolioData.slice().reverse();
+      
+      for (const item of reversedData) {
+        // jpg 먼저 확인
+        let imageSrc = `img/${item.image}`;
+        const imageExists = await checkImageExists(imageSrc);
+        
+        if (!imageExists) {
+          // jpg가 없으면 png 시도
+          imageSrc = imageSrc.replace(/\.jpg$/, '.jpg'); // 원본 경로 유지
+          const pngSrc = imageSrc.replace(/\.jpg$/, '.png');
+          const pngExists = await checkImageExists(pngSrc);
+          if (pngExists) {
+            imageSrc = pngSrc;
+          }
+        }
+        
+        const cardHTML = `
+          <div class="thumb-card" data-category="${item.category}" data-title="${item.title}" data-desc="${item.desc}">
+            <img src="${imageSrc}" alt="${item.category}" onerror="this.src=this.src.replace('.jpg', '.png')">
+            <div class="thumb-title">${item.title}</div>
+            <div class="thumb-overlay">${item.title}</div>
+          </div>
+        `;
+        grid.insertAdjacentHTML('beforeend', cardHTML);
+      }
       
       thumbCards = document.querySelectorAll('.thumb-card');
       attachEventListeners();
@@ -579,7 +600,7 @@
     // 이벤트 리스너 연결 함수
     function attachEventListeners() {
       thumbCards.forEach((card, index) => {
-        card.onclick = () => {
+        card.onclick = async () => {
           const title = card.dataset.title;
           document.getElementById('detail-title').textContent = title;
           document.getElementById('detail-desc').textContent = card.dataset.desc;
@@ -591,7 +612,7 @@
           url.searchParams.set('title', title);
           window.history.pushState({}, '', url);
           
-          loadImages(title);
+          await loadImages(title);
         };
       });
     }
@@ -620,32 +641,61 @@
       detailView.style.display = 'none';
     }
 
-    function loadImages(title) {
+    async function loadImages(title) {
       imagePaths = [];
       currentImageIndex = 0;
       thumbnailTrack.innerHTML = '';
       thumbnailTrack.style.transform = 'translateX(0px)';
       
-      // 7장으로 제한
+      // 7장으로 제한, jpg와 png 모두 확인
       for (let i = 0; i <= 6; i++) {
-        const mainSrc = IMAGE_CONFIG.getMainImagePath(title, i);
-        const thumbSrc = IMAGE_CONFIG.getThumbnailImagePath(title, i);
+        // 먼저 jpg 확인
+        const jpgMainSrc = IMAGE_CONFIG.getMainImagePath(title, i, 'jpg');
+        const jpgThumbSrc = IMAGE_CONFIG.getThumbnailImagePath(title, i, 'jpg');
         
-        const img = new Image();
-        img.src = mainSrc;
-        img.onload = () => {
-          imagePaths.push({ main: mainSrc, thumb: thumbSrc });
-          createThumbnail(thumbSrc, mainSrc, imagePaths.length - 1);
-          if (imagePaths.length === 1) {
-            showMainImage(0);
+        // jpg 존재 여부 확인
+        const jpgExists = await checkImageExists(jpgMainSrc);
+        
+        let mainSrc, thumbSrc;
+        if (jpgExists) {
+          mainSrc = jpgMainSrc;
+          thumbSrc = jpgThumbSrc;
+        } else {
+          // png 시도
+          const pngMainSrc = IMAGE_CONFIG.getMainImagePath(title, i, 'png');
+          const pngThumbSrc = IMAGE_CONFIG.getThumbnailImagePath(title, i, 'png');
+          const pngExists = await checkImageExists(pngMainSrc);
+          
+          if (pngExists) {
+            mainSrc = pngMainSrc;
+            thumbSrc = pngThumbSrc;
+          } else {
+            continue; // 둘 다 없으면 건너뛰기
           }
-        };
+        }
+        
+        imagePaths.push({ main: mainSrc, thumb: thumbSrc });
+        createThumbnail(thumbSrc, mainSrc, imagePaths.length - 1);
+        
+        if (imagePaths.length === 1) {
+          showMainImage(0);
+        }
       }
       
       // 드래그 기능 초기화
       setTimeout(() => {
         initThumbnailDrag();
       }, 100);
+    }
+    
+    // 이미지 존재 여부 확인 함수
+    function checkImageExists(url) {
+      return new Promise((resolve) => {
+        const img = new Image();
+        img.onload = () => resolve(true);
+        img.onerror = () => resolve(false);
+        img.src = url;
+      });
     }
 
     function createThumbnail(thumbSrc, mainSrc, index) {
@@ -826,8 +876,8 @@
       }, { passive: false });
     }
 
-    window.addEventListener('DOMContentLoaded', () => {
-      generateThumbnails();
+    window.addEventListener('DOMContentLoaded', async () => {
+      await generateThumbnails();
       
       const params = new URLSearchParams(window.location.search);
       const titleParam = params.get('title');

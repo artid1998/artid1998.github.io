@@ -24,17 +24,10 @@ const HeaderComponent = `
 const FooterComponent = `
 <footer>
   <div class="footer-container">
-    <div class="footer-top">
-      <div class="footer-help">
+    <div class="footer-content">
+      <div class="footer-contact">
         <h3>공사문의는 언제든지 전화주세요</h3>
         <div class="phone">031-242-0455 / 010-2356-9987</div>
-      </div>
-      
-      <div class="footer-center">
-        <div class="footer-logo">
-          <img src="img/logo sub.png" alt="아트아이디 로고">
-        </div>
-        <p class="footer-slogan">인테리어 전문가가 함께 만들어 가는 새로운 공간</p>
       </div>
       
       <div class="footer-social">
@@ -51,10 +44,14 @@ const FooterComponent = `
           </a>
         </div>
       </div>
+      
+      <div class="footer-info-text">
+        <p>TEL : 031-242-0455</p>
+        <p>경기 수원시 장안구 송정로138번길 13 백산빌딩 6층 601호</p>
+      </div>
     </div>
     
-    <div class="footer-info">
-      <p>경기 수원시 장안구 송정로138번길 13 백산빌딩 6층 601호 | TEL : 031-242-0455</p>
+    <div class="footer-copyright">
       <p>COPYRIGHT &copy; 1998 아트아이디. ALL RIGHTS RESERVED.</p>
     </div>
   </div>
@@ -117,8 +114,8 @@ const CommonStyles = `
   /* 푸터 스타일 */
   footer {
     background-color: #1a237e;
-    margin-top: 50px;
-    padding: 60px 0 30px 0;
+    margin-top: 80px;
+    padding: 30px 0 20px 0;
     width: 100vw;
     margin-left: calc(50% - 50vw);
     color: white;
@@ -130,71 +127,50 @@ const CommonStyles = `
     padding: 0 40px;
   }
 
-  .footer-top {
+  .footer-content {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 40px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   }
 
-  .footer-help {
-    text-align: center;
+  .footer-contact {
     flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 15px;
   }
 
-  .footer-help h3 {
+  .footer-contact h3 {
     margin: 0 0 10px 0;
-    font-size: 1.1rem;
+    font-size: 0.95rem;
     font-weight: normal;
     color: #cccccc;
   }
 
-  .footer-help .phone {
-    font-size: 1.3rem;
-    font-weight: normal;
+  .footer-contact .phone {
+    font-size: 1.2rem;
+    font-weight: bold;
     color: white;
   }
 
-  .footer-center {
-    text-align: center;
+  .footer-info-text {
     flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    text-align: right;
   }
 
-  .footer-logo {
-    margin-bottom: 15px;
-  }
-
-  .footer-logo img {
-    height: 60px;
-    object-fit: contain;
-    filter: brightness(0) invert(1);
-  }
-
-  .footer-slogan {
-    color: #cccccc;
+  .footer-info-text p {
+    margin: 5px 0;
     font-size: 0.9rem;
-    margin: 0;
+    color: #cccccc;
   }
 
   .footer-social {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
     flex: 1;
-    gap: 15px;
+    text-align: center;
   }
 
   .footer-social h3 {
-    margin: 0 0 15px 0;
-    font-size: 1.1rem;
+    margin: 0 0 10px 0;
+    font-size: 0.95rem;
     font-weight: normal;
     color: #cccccc;
   }
@@ -202,12 +178,12 @@ const CommonStyles = `
   .footer-social-icons {
     display: flex;
     gap: 15px;
+    justify-content: center;
   }
 
   .footer-social a {
     display: inline-block;
     color: white;
-    font-size: 1.5rem;
     text-decoration: none;
     transition: opacity 0.3s ease;
   }
@@ -222,15 +198,15 @@ const CommonStyles = `
     opacity: 0.7;
   }
 
-  .footer-info {
+  .footer-copyright {
     text-align: center;
-    color: #cccccc;
-    font-size: 0.9rem;
-    line-height: 1.6;
+    padding-top: 15px;
   }
 
-  .footer-info p {
-    margin: 8px 0;
+  .footer-copyright p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #cccccc;
   }
 
   /* 반응형 스타일 */
@@ -274,22 +250,19 @@ const CommonStyles = `
       font-size: 1.2rem !important;
     }
 
-    .footer-top {
+    .footer-content {
       flex-direction: column;
-      align-items: center;
-      gap: 30px;
+      gap: 20px;
       text-align: center;
     }
 
-    .footer-help {
-      text-align: center;
-    }
-
-    .footer-center {
-      margin: 0;
-    }
-
+    .footer-contact,
+    .footer-info-text,
     .footer-social {
+      text-align: center;
+    }
+
+    .footer-social-icons {
       justify-content: center;
     }
   }

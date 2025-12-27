@@ -8,8 +8,20 @@ const IMAGE_CONFIG = {
   // 폴더명/0.jpg, 1.jpg, ... (메인 이미지들)
   // 폴더명/thumbnails/0.jpg, 1.jpg, ... (썸네일 이미지들)
   // 폴더명/thumbnails/thumb.jpg (대표 썸네일)
-  getMainImagePath: (title, index) => `img/slides/${title}/${index}.jpg`,
-  getThumbnailImagePath: (title, index) => `img/slides/${title}/thumbnails/${index}.jpg`,
+  // jpg와 png 확장자를 모두 지원하는 함수
+  getMainImagePath: (title, index, ext = 'jpg') => `img/slides/${title}/${index}.${ext}`,
+  getThumbnailImagePath: (title, index, ext = 'jpg') => `img/slides/${title}/thumbnails/${index}.${ext}`,
+  // 이미지 확장자 찾기 (jpg 또는 png)
+  findImageExtension: async (basePath) => {
+    const extensions = ['jpg', 'png'];
+    for (const ext of extensions) {
+      try {
+        const response = await fetch(basePath.replace(/\.[^.]+$/, `.${ext}`), { method: 'HEAD' });
+        if (response.ok) return ext;
+      } catch (e) {}
+    }
+    return 'jpg'; // 기본값
+  },
   getProjectThumbnailPath: (title) => `slides/${title}/thumbnails/thumb.jpg`
 };
 
@@ -71,21 +83,21 @@ const portfolioData = [
   },
   {
     category: "상가",
-    title: "크몽 벤틀스페이스",
+    title: "벤틀스페이스 홍대점",
     desc: "크몽 벤틀스페이스 미용실 인테리어 작업입니다.",
-    image: IMAGE_CONFIG.getProjectThumbnailPath("크몽 벤틀스페이스")
+    image: IMAGE_CONFIG.getProjectThumbnailPath("벤틀스페이스 홍대점")
    },
   {
     category: "상가",
-    title: "매봉역 만세감사탕",
+    title: "만세감사탕 매봉역",
     desc: "매봉역 만세감사탕 매장 인테리어 작업입니다.",
-    image: IMAGE_CONFIG.getProjectThumbnailPath("매봉역 만세감사탕")
+    image: IMAGE_CONFIG.getProjectThumbnailPath("만세감사탕 매봉역")
     },
     {
     category: "상가",
-    title: "이수 벤틀스페이스",
+    title: "벤틀스페이스 이수점",
     desc: "이수 벤틀스페이스 미용실 인테리어 작업입니다.",
-        image: IMAGE_CONFIG.getProjectThumbnailPath("이수 벤틀스페이스")
+        image: IMAGE_CONFIG.getProjectThumbnailPath("벤틀스페이스 이수점")
     }
 ];
 

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>인테리어 포트폴리오</title>
+  <title>아트아이디</title>
   
   <!-- Open Graph 메타태그 -->
   <meta property="og:title" content="아트아이디 - 인테리어 전문 업체">
@@ -46,7 +46,7 @@
 
     .slides {
       display: flex;
-      width: 300%;
+      width: 500%;
       height: 100%;
       transition: transform 0.5s ease;
     }
@@ -57,6 +57,109 @@
       flex-shrink: 0;
       background-size: cover;
       background-position: center;
+      position: relative;
+    }
+
+    .slide::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.2);
+      z-index: 1;
+    }
+
+    .slide-content {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      color: white;
+      z-index: 2;
+      width: 50%;
+      max-width: 600px;
+      padding: 40px;
+    }
+
+    .slide-content.left {
+      left: 10%;
+      text-align: left;
+    }
+
+    .slide-content.right {
+      right: 10%;
+      text-align: right;
+    }
+
+    .slide-content h2 {
+      font-size: 3.5rem;
+      font-weight: bold;
+      margin: 0 0 30px 0;
+      line-height: 1.3;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+      word-break: keep-all;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: slideUp 0.8s ease-out forwards;
+    }
+
+    .slide-content p {
+      font-size: 1.3rem;
+      line-height: 1.8;
+      margin: 0 0 40px 0;
+      font-weight: 300;
+      text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+      word-break: keep-all;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: slideUp 0.8s ease-out 0.3s forwards;
+    }
+
+    .slide-button {
+      display: inline-block;
+      padding: 15px 40px;
+      border: 2px solid white;
+      color: white;
+      text-decoration: none;
+      font-size: 1.1rem;
+      font-weight: bold;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: slideUp 0.8s ease-out 0.5s forwards;
+    }
+
+    .slide-button:hover {
+      background-color: #1a237e;
+      border-color: #1a237e;
+      color: white;
+    }
+
+    @keyframes slideUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .slide-content {
+        width: 80%;
+        left: 50% !important;
+        right: auto !important;
+        transform: translate(-50%, -50%) !important;
+        text-align: center !important;
+        padding: 20px;
+      }
+      
+      .slide-content h2 {
+        font-size: 2rem;
+      }
+      .slide-content p {
+        font-size: 1rem;
+      }
     }
 
     .arrow {
@@ -103,9 +206,41 @@
 
   <section class="slideshow">
     <div class="slides">
-      <div class="slide" style="background-image: url('img/slide1.jpg');"></div>
-      <div class="slide" style="background-image: url('img/slide2.jpg');"></div>
-      <div class="slide" style="background-image: url('img/slide3.jpg');"></div>
+      <div class="slide" style="background-image: url('img/slide1.jpg');">
+        <div class="slide-content left">
+          <h2>사람 중심의 공간 디자인</h2>
+          <p>사무실, 상가, 주택 등 다양한 생활 공간 속에서<br>새로운 생각을 실현시키는 아트아이디</p>
+          <a href="portfolio.html" class="slide-button">VIEW PORTFOLIO</a>
+        </div>
+      </div>
+      <div class="slide" style="background-image: url('img/slide2.jpg');">
+        <div class="slide-content right">
+          <h2>1998년 설립 이후<br>30년 가까운 노하우</h2>
+          <p>기획부터 설계, 시공까지 전 과정을 책임지며<br>고객의 라이프스타일과 목적에 최적화된<br>맞춤형 인테리어를 제안합니다</p>
+          <a href="portfolio.html" class="slide-button">VIEW PORTFOLIO</a>
+        </div>
+      </div>
+      <div class="slide" style="background-image: url('img/slide3.jpg');">
+        <div class="slide-content left">
+          <h2>자연 친화적인 디자인</h2>
+          <p>공간의 가치를 높이고<br>사용자의 편안함과 효율을 고려한<br>설계로 신뢰를 쌓아옵니다</p>
+          <a href="portfolio.html" class="slide-button">VIEW PORTFOLIO</a>
+        </div>
+      </div>
+      <div class="slide" style="background-image: url('img/slide4.jpg');">
+        <div class="slide-content right">
+          <h2>합리적인 비용과<br>성실한 시공</h2>
+          <p>실내 인테리어는 물론<br>사무실·상가·주택 리모델링까지<br>최상의 결과를 약속드립니다</p>
+          <a href="portfolio.html" class="slide-button">VIEW PORTFOLIO</a>
+        </div>
+      </div>
+      <div class="slide" style="background-image: url('img/slide5.jpg');">
+        <div class="slide-content left">
+          <h2>사람을 위한 진짜 공간</h2>
+          <p>단순히 보기 좋은 공간을 넘어<br>아트아이디가 만들어가는<br>창의적인 생활 공간</p>
+          <a href="portfolio.html" class="slide-button">VIEW PORTFOLIO</a>
+        </div>
+      </div>
     </div>
     <div class="arrow left" onclick="moveSlide(-1)">&#10094;</div>
     <div class="arrow right" onclick="moveSlide(1)">&#10095;</div>
@@ -113,6 +248,8 @@
       <span onclick="currentSlide(0)"></span>
       <span onclick="currentSlide(1)"></span>
       <span onclick="currentSlide(2)"></span>
+      <span onclick="currentSlide(3)"></span>
+      <span onclick="currentSlide(4)"></span>
     </div>
   </section>
 
@@ -126,14 +263,43 @@
     let slideIndex = 0;
     const slides = document.querySelector('.slides');
     const dots = document.querySelectorAll('.dots span');
+    const slideContents = document.querySelectorAll('.slide-content');
+
+    function resetAnimations() {
+      slideContents.forEach(content => {
+        const h2 = content.querySelector('h2');
+        const p = content.querySelector('p');
+        const button = content.querySelector('.slide-button');
+        if (h2) {
+          h2.style.animation = 'none';
+          setTimeout(() => {
+            h2.style.animation = '';
+          }, 10);
+        }
+        if (p) {
+          p.style.animation = 'none';
+          setTimeout(() => {
+            p.style.animation = '';
+          }, 10);
+        }
+        if (button) {
+          button.style.animation = 'none';
+          setTimeout(() => {
+            button.style.animation = '';
+          }, 10);
+        }
+      });
+    }
 
     function showSlide(index) {
-      if (index >= 3) slideIndex = 0;
-      if (index < 0) slideIndex = 2;
+      if (index >= 5) slideIndex = 0;
+      if (index < 0) slideIndex = 4;
       slides.style.transform = `translateX(-${slideIndex * 100}vw)`;
 
       dots.forEach(dot => dot.classList.remove('active'));
       dots[slideIndex].classList.add('active');
+      
+      resetAnimations();
     }
 
     function moveSlide(n) {
