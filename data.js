@@ -89,9 +89,9 @@ const portfolioData = [
    },
   {
     category: "상가",
-    title: "만세감사탕 매봉역",
-    desc: "매봉역 만세감사탕 매장 인테리어 작업입니다.",
-    image: IMAGE_CONFIG.getProjectThumbnailPath("만세감사탕 매봉역")
+    title: "만세감자탕 매봉역",
+    desc: "매봉역 만세감자탕 매장 인테리어 작업입니다.",
+    image: IMAGE_CONFIG.getProjectThumbnailPath("만세감자탕 매봉역")
     },
     {
     category: "상가",
