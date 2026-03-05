@@ -22,7 +22,7 @@ const IMAGE_CONFIG = {
     }
     return 'jpg'; // 기본값
   },
-  getProjectThumbnailPath: (title) => `slides/${title}/thumbnails/thumb.jpg`
+  getProjectThumbnailPath: (title) => `img/slides/${title}/thumbnails/thumb.jpg`
 };
 
 // 포트폴리오 데이터
@@ -98,7 +98,19 @@ const portfolioData = [
     title: "벤틀스페이스 이수점",
     desc: "이수 벤틀스페이스 미용실 인테리어 작업입니다.",
         image: IMAGE_CONFIG.getProjectThumbnailPath("벤틀스페이스 이수점")
-    }
+    },
+  {
+    category: "사무실",
+    title: "용인 고급멘션단지",
+    desc: "용인 고급멘션단지 인테리어 작업입니다.",
+    image: IMAGE_CONFIG.getProjectThumbnailPath("용인 고급멘션단지")
+  },
+  {
+    category: "사무실",
+    title: "한국메인라인",
+    desc: "한국메인라인 인테리어 작업입니다.",
+    image: IMAGE_CONFIG.getProjectThumbnailPath("한국메인라인")
+  }
 ];
 
 // 카테고리 데이터
