@@ -22,7 +22,7 @@ const IMAGE_CONFIG = {
     }
     return 'jpg'; // 기본값
   },
-  getProjectThumbnailPath: (title) => `img/slides/${title}/thumbnails/thumb.jpg`
+  getProjectThumbnailPath: (title) => `slides/${title}/thumbnails/thumb.jpg`
 };
 
 // 포트폴리오 데이터
