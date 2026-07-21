@@ -393,6 +393,7 @@
     }
 
     .thumbnail-item {
+      position: relative;
       flex-shrink: 0;
       width: 128px;
       height: 72px;
@@ -420,6 +421,34 @@
       border-color: var(--main-blue-hover);
       z-index: 5;
       position: relative;
+    }
+
+    #main-video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      background: #000;
+      display: none;
+      z-index: 3;
+    }
+
+    #main-video.active {
+      display: block;
+    }
+
+    .thumbnail-item.video-thumb::after {
+      content: '▶';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #fff;
+      font-size: 22px;
+      text-shadow: 0 0 6px rgba(0, 0, 0, 0.8);
+      pointer-events: none;
     }
 
     #detail-desc {
@@ -525,6 +554,7 @@
           <div id="main-image-container">
             <img id="main-image" src="" alt="">
             <img id="main-image-overlay" src="" alt="">
+            <iframe id="main-video" src="" title="" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
           </div>
           <div id="thumbnail-container">
             <div id="thumbnail-track"></div>
@@ -559,6 +589,7 @@
     const mainImage = document.getElementById('main-image');
     const mainImageOverlay = document.getElementById('main-image-overlay');
     const thumbnailTrack = document.getElementById('thumbnail-track');
+    const mainVideo = document.getElementById('main-video');
     const imageModal = document.getElementById('image-modal');
     const modalImage = document.getElementById('modal-image');
 
@@ -641,6 +672,7 @@
       });
       thumbnailGrid.style.display = 'grid';
       detailView.style.display = 'none';
+      hideVideo();
     }
 
     async function loadImages(title) {
@@ -648,13 +680,22 @@
       currentImageIndex = 0;
       thumbnailTrack.innerHTML = '';
       thumbnailTrack.style.transform = 'translateX(0px)';
-      
-      for (let i = 0; i <= 6; i++) {
+      hideVideo();
+
+      const project = portfolioData.find(p => p.title === title);
+      if (project && project.video) {
+        const videoThumb = `https://img.youtube.com/vi/${project.video}/hqdefault.jpg`;
+        imagePaths.push({ type: 'video', videoId: project.video, main: null, thumb: videoThumb });
+        createThumbnail(videoThumb, null, 0, true);
+        showMainImage(0);
+      }
+
+      for (let i = 0; i <= IMAGE_CONFIG.maxImages; i++) {
         const mainSrc = await findBestImage(IMAGE_CONFIG.getMainImagePath(title, i, 'jpg'));
         if (!mainSrc) continue;
         const thumbSrc = await findBestImage(IMAGE_CONFIG.getThumbnailImagePath(title, i, 'jpg')) || mainSrc;
         
-        imagePaths.push({ main: mainSrc, thumb: thumbSrc });
+        imagePaths.push({ type: 'image', main: mainSrc, thumb: thumbSrc });
         createThumbnail(thumbSrc, mainSrc, imagePaths.length - 1);
         
         if (imagePaths.length === 1) {
@@ -677,9 +718,10 @@
       });
     }
 
-    function createThumbnail(thumbSrc, mainSrc, index) {
+    function createThumbnail(thumbSrc, mainSrc, index, isVideo = false) {
       const thumbnailItem = document.createElement('div');
       thumbnailItem.className = 'thumbnail-item';
+      if (isVideo) thumbnailItem.classList.add('video-thumb');
       if (index === 0) thumbnailItem.classList.add('active');
       
       const img = document.createElement('img');
@@ -703,9 +745,28 @@
       thumbnailTrack.appendChild(thumbnailItem);
     }
 
+    function hideVideo() {
+      mainVideo.classList.remove('active');
+      mainVideo.src = '';
+    }
+
     function showMainImage(index) {
       currentImageIndex = index;
-      const newImageSrc = imagePaths[index].main;
+      const item = imagePaths[index];
+
+      document.querySelectorAll('.thumbnail-item').forEach((el, i) => {
+        el.classList.toggle('active', i === index);
+      });
+
+      if (item.type === 'video') {
+        mainVideo.src = `https://www.youtube.com/embed/${item.videoId}?rel=0`;
+        mainVideo.classList.add('active');
+        return;
+      }
+
+      hideVideo();
+
+      const newImageSrc = item.main;
       
       mainImageOverlay.src = newImageSrc;
       mainImageOverlay.onload = () => {
@@ -743,6 +804,7 @@
     });
 
     function goBackToGrid() {
+      hideVideo();
       detailView.style.display = 'none';
       thumbnailGrid.style.display = 'grid';
       

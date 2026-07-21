@@ -110,6 +110,13 @@ const portfolioData = [
     title: "한국메인라인",
     desc: "",
     image: IMAGE_CONFIG.getProjectThumbnailPath("한국메인라인")
+  },
+  {
+    category: "기타 리모델링",
+    title: "선교제일교회",
+    desc: "",
+    video: "dbZ_bgpxy5s",
+    image: IMAGE_CONFIG.getProjectThumbnailPath("선교제일교회")
   }
 ];
 
